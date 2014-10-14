@@ -1,0 +1,29 @@
+<div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme='b'>
+            <a href="#search_page" data-ajax="false"><i class='fa fa-bars'></i></a>
+            <h1>Property Market</h1>
+        </div>
+        <div data-role="content">  
+			<div class='message info'>
+				<i class='fa fa-calculator'></i>
+				<h3><b>Mortgage Calculator</b></h3>
+			</div>
+			<form method="get" action="" id="mrt_calculator">
+			<ul data-role="listview" data-inset="true">
+						<li data-role="fieldcontain">
+							<label for="name2b">Loan Amount</label>
+							<input onfocus="this.type='number';" name="loan_amount" id="loan_amount" value="" data-clear-btn="true" placeholder="Enter Loan Amount" required>
+						</li>
+						<li data-role="fieldcontain">
+							<label for="name2b">Interest Rate(%)</label>
+							<input onfocus="this.type='number';" name="interest_rate" id="interest_rate" value="" data-clear-btn="true" placeholder="Enter Interest Rate" required>
+						</li>
+						<li data-role="fieldcontain">
+							<label for="name2b">Loan Term(Years)</label>
+							<input onfocus="this.type='number';" name="length_of_mortgage" id="length_of_mortgage" value="" data-clear-btn="true" placeholder="Enter Loan Term" required>
+						</li>
+						<li data-role="fieldcontain">
+						<button type="button" class="ui-btn frm1_btn" id="mrt_btn">Calculate Mortgage</button>
+						</li>
+			</ul>			
+			</form>
+		</div>

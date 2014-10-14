@@ -1,0 +1,66 @@
+body { /* Setting body margins to 0 to have proper positioning of #container div */ margin: 0;
+}
+ /* #container div with absolute position and 100% width and height so it takes up whole window */
+#container {
+position: absolute;
+width: 100%;
+height: 100%;
+}
+
+.option_side_panel{background:none !important;}
+.ui-fixed-hidden{padding:0 !important;}
+.ui-header{overflow:hidden;}
+li.ui-tabs-active > a {
+    background-color: #B6DB49 !important;
+    border-color: #B6DB49 !important;
+    color: rgb(255, 255, 255) !important;
+    text-shadow: 0 1px 0 #B6DB49 !important;
+}
+.range_left{margin-left:-8px}
+.range_right{margin-right:8px}
+input.ui-slider-input {width:50px !important; padding-top:8px !important;}
+.hidden{display:none !important;}
+.range_container{position:relative; padding-top:15px;}
+#rval1{position:absolute; top:0; left:2px;}
+#rval2{position:absolute; top:0;  right:2px;}
+.property_type .ui-controlgroup-controls{width:100%; overflow:auto;}
+.property_type .ui-controlgroup-controls .ui-radio{display:inline-block; float:none;}
+.ui-listview > .ui-li-static {
+    padding: 8px 15px !important;
+}
+.ui-btn-active {border-width:1px !important;}
+.property_type .ui-btn:focus,.property_type .ui-btn:hover {background:rgba(255, 255, 255, 0.05) !important;}
+.property_type .ui-btn-active:focus,.property_type .ui-btn-active:hover {background:#3C4044 !important;}
+.frm1_btn{background:#0099cc !important; border-radius:10px;}
+input:invalid {
+    box-shadow: none;
+}
+.ui-page { -webkit-backface-visibility: hidden; } 
+.ui-autocomplete {
+            max-height: 100px;
+            overflow-y: auto;
+            /* prevent horizontal scrollbar */
+            overflow-x: hidden;
+            /* add padding to account for vertical scrollbar */
+            padding-right: 20px;
+    }
+.property_list_ul .ui-btn:hover{background:none !important;}
+.ui-table-columntoggle-btn{display:none !important;}
+.loan_head{color:#B6DB49;}
+#mresult_close{margin-top:40px;}
+::-webkit-scrollbar {display: none;}
+#mrt_btn:focus{color:#BCBEC0;}
+#select-17-button:hover,#select-17-button:focus{background:#282828 !important; cursor:pointer;}
+.home_top_tab li a {padding:0.7em 0.3em !important;}
+.custom_select_menu{width:120%; background:#3C4044; border:none; color:#fff; height:40px; border-radius:3px;}
+.custom_select_menu:focus,.custom_select_menu:hover{outline:none !important; background:#3C4044 !important;}
+.select_parent{width:100%; background:#0F1114; overflow:hidden;border-radius:3px; height:40px; }
+.select_icon{margin-top:-30px; text-align:right;}
+
+.txt-center{text-align:center !important;}
+.txt-error{color:red !important;}
+
+/****** buttons ******/
+.btn-blue{background:#0099cc !important; border-radius:10px;}
+.btn-gray{background:#D6D6D6 !important; border-radius:10px; color:#000 !important;}
+/****** end of buttons *****/

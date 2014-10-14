@@ -1,0 +1,35 @@
+<div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme='b'>
+            <a href="#search_page" data-ajax="false"><i class='fa fa-bars'></i></a>
+            <h1>Property Market</h1>
+        </div>
+        <div data-role="content">  
+			<div id="one" class="ui-body-d ui-content">
+				<form method="get" id="feedback_frm">
+					<li data-role="fieldcontain">
+							<label for="name2b">Your Name</label>
+							<input type="text" name="feedback_name" id="feedback_name" value="" data-clear-btn="true" placeholder="Type Your Name..." required>
+					</li>
+					<li data-role="fieldcontain">
+                       <label for="textarea2b">Message</label>
+                    <textarea cols="40" rows="8" name="feedback_content" id="feedback_content" placeholder="Type Message..." required></textarea>
+                    </li>
+					<li data-role="fieldcontain">
+						<button type="button" class="ui-btn frm1_btn" id="feedback_btn">Post Feedback</button>
+					</li>
+				</form>
+			</div>
+			
+			<div data-role="content">
+				<ul data-role="listview" data-inset="false" data-icon="false" data-divider-theme="b" id="feedbacklist" class="property_list_ul">
+			   <li data-role="list-divider">Feedback Lists</li>
+				<li>
+					<h2>Stephen Weber</h2>
+					<p>Hey Stephen, if you're available at 10am tomorrow, we've got a meeting with the jQuery team.</p>
+					<p class="ui-li-aside">
+					<a href="#"><i class='lIcon fa fa-pencil'></i></a>
+					<a href="#"><i class='lIcon fa fa-trash'></i></a></p>
+				</li>
+				</ul>
+			</div>
+
+		</div>

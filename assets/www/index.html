@@ -1,0 +1,155 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Property Market</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="css/font-awesome.min.css" />
+		<link rel="stylesheet" href="css/jquery.mobile-1.4.2.min.css" />
+        <link rel="stylesheet" href="css/jquerymobile.nativedroid.css" />
+        <link rel="stylesheet" href="css/jquerymobile.nativedroid.dark.css"  id='jQMnDTheme' />
+        <link rel="stylesheet" href="css/jquerymobile.nativedroid.color.green.css" id='jQMnDColor' />
+        <link rel="stylesheet" href="css/style.css" />
+
+		<script src="cordova.js"></script>
+		<script src="js/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript">
+        $(document).one("mobileinit", function () {
+ 
+            // Setting #container div as a jqm pageContainer
+            $.mobile.pageContainer = $('#container');
+ 
+            // Setting default page transition to slide
+            $.mobile.defaultPageTransition = 'slide';
+ 
+        });
+		</script>
+        <script src="js/jquery.mobile-1.4.2.min.js"></script>
+        <script src="js/custom.js"></script>
+    </head>
+    <body onload="onLoad()">
+	<div id="container">
+		<div data-role="page" id="login_page" data-theme='b'>
+			<div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme='b'>
+				<a href="#" data-role='button' data-inline='true'><i class='lIcon fa fa-home'></i></a>
+				<h1>Property Market</h1>
+			</div>
+			<div data-role="content">
+				<div id="login" class="ui-body-d ui-content">
+					<div id="error-msg-container">
+						<ul data-role="listview" id="login-error" data-inset="true">
+							
+						</ul>
+					</div>
+					<form method="post" action="" id="login_frm">
+						<ul data-role="listview" data-inset="true">
+							<li data-role="fieldcontain">
+								<label for="email">Email</label>
+								<input type="text" name="email" id="email" placeholder="Email" required>
+							</li>
+							<li data-role="fieldcontain">
+								<label for="password">Password</label>
+								<input type="password" name="password" id="password" placeholder="Password" required>
+							</li>
+							<li data-icon="false"><a href="#forget_pass_page" id="forget_password">Forgot password?</a></li>
+							<li data-role="fieldcontain">
+								<button type="submit" class="ui-btn frm1_btn" id="login_btn">Login</button>
+							</li>
+							<li data-icon="false">or</li>
+							<li data-role="fieldcontain">
+								<button type="button" class="ui-btn btn-gray" onClick="window.location.href='#register_page';">Register</button>
+							</li>
+						</ul>
+					</form>	
+				</div>
+			</div>
+			<div data-role="footer" data-position="fixed" data-theme="b">
+				<ul data-role="listview" data-inset="true">
+					<li data-icon="false">
+						<a href="#" onClick="window.location='home.html';" class="txt-center">Skip this step</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div data-role="page" id="forget_pass_page" data-theme='b'>
+			<div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme='b'>
+				<a href="#login_page" data-role='button' data-inline='true'><i class='lIcon fa fa-reply'></i></a>
+				<h1>Property Market</h1>
+			</div>
+			<form method="post" action="" id="forget_pass_frm">
+				<ul data-role="listview" data-inset="true">
+					<li data-role="fieldcontain">
+						<label for="email">Email</label>
+						<input type="text" name="email" id="email" placeholder="Email" required>
+					</li>
+					<li data-role="fieldcontain">
+						<button type="submit" class="ui-btn frm1_btn" id="forget_pass_btn">Submit</button>
+					</li>
+				</ul>
+			</form>
+		</div>
+		<div data-role="page" id="register_page" data-theme='b'>
+			<div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme='b'>
+				<a href="#login_page" data-role='button' data-inline='true'><i class='lIcon fa fa-reply'></i></a>
+				<h1>Property Market</h1>
+			</div>
+			<div data-role="content">
+				<div id="register" class="ui-body-d ui-content">
+					<div id="error-msg-container">
+						<ul data-role="listview" id="register-error" data-inset="true">
+							
+						</ul>
+					</div>
+					<form method="post" action="" id="register_frm">
+						<ul data-role="listview" data-inset="true">
+							<li data-role="fieldcontain">
+								<label for="name">Name</label>
+								<input type="text" name="name" id="name" placeholder="Your Name" required>
+							</li>
+							<li data-role="fieldcontain">
+								<label for="email">Email</label>
+								<input type="email" name="email" id="email" placeholder="Your Email" required>
+							</li>
+							<li data-role="fieldcontain">
+								<label for="password">Password</label>
+								<input type="password" name="password" id="password" placeholder="Password" required>
+							</li>
+							<li data-role="fieldcontain">
+								<label for="contact">Mobile</label>
+								<input type="text" name="contact" id="contact" placeholder="Your Mobile No" required>
+							</li>
+							<li data-role="fieldcontain">
+								<label for="user_type">User Type</label>
+								<div>
+									<select name="user_type" data-role="none" class="custom_select_menu">
+										<option value="2">&nbsp;Client</option>
+										<option value="1">&nbsp;Admin</option>
+										<option value="3">&nbsp;Broker</option>
+										<option value="4">&nbsp;Company Broker</option>
+										<option value="5">&nbsp;Developer</option>
+										<option value="6">&nbsp;Company Developer</option>
+									</select>
+									<div class="select_icon"><i class="lIcon fa fa-chevron-down"></i></div>
+								</div>
+							</li>
+							<li data-role="fieldcontain">
+								<button type="submit" class="ui-btn frm1_btn" id="register_btn">Register</button>
+							</li>
+							<li data-icon="false">or</li>
+							<li data-role="fieldcontain">
+								<button type="button" class="ui-btn btn-gray" onClick="window.location.href='#login_page';">Login</button>
+							</li>
+						</ul>
+					</form>	
+				</div>
+			</div>
+			<div data-role="footer" data-position="fixed" data-theme="b">
+				<ul data-role="listview" data-inset="true">
+					<li data-icon="false">
+						<a href="#" onClick="window.location='home.html';" class="txt-center">Skip this step</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+    </body>
+</html>

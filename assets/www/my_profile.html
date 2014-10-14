@@ -1,0 +1,33 @@
+<div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme='b'>
+	<a href="#search_page" data-ajax="false"><i class='fa fa-bars'></i></a>
+	<h1>Property Market</h1>
+</div>
+<div data-role="content">
+	<div class='message info'>
+		<h3><b>Change Password</b></h3>
+	</div>
+	<div id="error-msg-container">
+		<ul data-role="listview" id="error-msg" data-inset="true">
+			
+		</ul>
+	</div>
+	<form method="post" id="change_pass_frm">
+		<ul data-role="listview" data-inset="true">
+			<li data-role="fieldcontain">
+				<label for="cpassword">Current Password</label>
+				<input type="password" name="cpassword" id="cpassword" placeholder="Enter Current Password" required>
+			</li>
+			<li data-role="fieldcontain">
+				<label for="npassword">New Password</label>
+				<input type="password" name="npassword" id="npassword" placeholder="Enter New Password" required>
+			</li>
+			<li data-role="fieldcontain">
+				<label for="rnpassword">Re-enter New Password</label>
+				<input type="password" name="rnpassword" id="rnpassword" placeholder="Re-enter New Password" required>
+			</li>
+			<li data-role="fieldcontain">
+				<button type="button" class="ui-btn btn-blue" id="change_pass_btn">Submit</button>
+			</li>
+		</ul>
+	</form>
+</div>

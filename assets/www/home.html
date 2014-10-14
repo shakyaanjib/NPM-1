@@ -1,0 +1,174 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Property Market</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="css/font-awesome.min.css" />
+		<link rel="stylesheet" href="css/jquery.mobile-1.4.2.min.css" />
+        <link rel="stylesheet" href="css/jquerymobile.nativedroid.css" />
+        <link rel="stylesheet" href="css/jquerymobile.nativedroid.dark.css"  id='jQMnDTheme' />
+        <link rel="stylesheet" href="css/jquerymobile.nativedroid.color.green.css" id='jQMnDColor' />
+        <link rel="stylesheet" href="css/style.css" />
+
+		<script src="cordova.js"></script>
+		<script src="js/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript">
+        $(document).one("mobileinit", function () {
+ 
+            // Setting #container div as a jqm pageContainer
+            $.mobile.pageContainer = $('#container');
+ 
+            // Setting default page transition to slide
+            $.mobile.defaultPageTransition = 'slide';
+ 
+        });
+		</script>
+        <script src="js/jquery.mobile-1.4.2.min.js"></script>
+        <script src="js/custom.js"></script>
+    </head>
+    <body onload="onLoad()">
+	<div id="container">
+					<!--start of page one---->
+    <div data-role="page" id="search_page" data-theme='b'>
+	<div data-role="panel" data-display="push" id="mypanel" data-theme="b" class="option_side_panel">
+        <ul data-role="listview" id="main-menu">
+            <li data-icon="false" id="welcome-msg"><a href="index.html"><i class='lIcon fa fa-user'></i>Login or Register</a></li>
+            <li data-icon='false'><a href="#mortgage_calc_page"><i class='lIcon fa fa-calculator'></i>Mortgage Calculator</a></li>
+            <li data-icon='false'><a href="#camera_page"><i class='lIcon fa fa-upload'></i>Upload Photo</a></li>
+            <li data-icon='false'><a href="#feedback_page" id="load_feedback"><i class='lIcon fa fa-phone'></i>Feedbacks</a></li>
+            <li data-icon='false'><a href="#"><i class='lIcon fa fa-music'></i>Rent Property</a></li>
+            <li data-icon='false'><a href="#"><i class='lIcon fa fa-fire'></i>Buy/Sell Property</a></li>
+            <li data-icon='false'><a href="#"><i class='lIcon fa fa-bullhorn'></i>Best Deals</a></li>
+            <li data-icon='false'><a href="#"><i class='lIcon fa fa-wrench'></i>Settings</a></li>
+        </ul>
+    </div>  
+        <div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme='b'>
+			<a href="#mypanel" data-role='button' data-inline='true'><i class='lIcon fa fa-bars'></i></a>
+            <h1>Property Market</h1>
+        </div>
+        
+        <div data-role="content">   
+		<div data-role="tabs" id="main_tabs" data-theme='b'>
+			<div data-role="navbar" class="my_nav">
+				<ul class="home_top_tab">
+				  <li><a href="#one" data-ajax="false">Buy</a></li>
+				  <li><a href="#two" data-ajax="false">Rent</a></li>
+				  <li><a href="#three" data-ajax="false">Developer</a></li>
+				</ul>
+			</div>
+			<div id="one" class="ui-body-d ui-content">
+				<form method="get" action="" id="sale_frm">
+					<ul data-role="listview" data-inset="true">
+						<li data-role="fieldcontain">
+						<label for="name2b">Select City</label>
+						<div class="select_parent">
+                        <select data-role="none" class="custom_select_menu" name="district">
+                            <option value="1">&nbsp;Kathmandu</option>
+                            <option value="2">&nbsp;Lalitpur</option>
+                            <option value="3">&nbsp;Bhaktapur</option>
+                            <option value="4">&nbsp;Pokhara</option>
+                        </select>
+						<div class="select_icon"><i class="lIcon fa fa-chevron-down"></i></div>
+						</div>
+						</li>
+						<li data-role="fieldcontain">
+							<label for="name2b">Search Location</label>
+							<input type="text" name="location" id="location_input" value="" data-clear-btn="true" placeholder="Type Location Name..." required>
+						</li>
+						<li data-role="fieldcontain">
+								<div data-role='rangeslider' class="range_container">
+									<label for='rangeslider1a'>Price Range</label>
+										<input type='range' name='pricelow' id='range1a' min='0' max='1000000' value='0' class="range_left hidden" step="10000"><span id="rval1">0</span>
+									<label for='rangeslider1b'>Price Range</label>
+										<input type='range' name='pricehigh' id='range1b' min='0' max='1000000' value='1000000' class="range_right hidden" step="10000"><span id="rval2" class="num_holder_right">10 Lakh</span>
+								</div>
+						</li> 
+						<li data-role="fieldcontain">
+							<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true" class="property_type">
+								<legend>Property Type</legend>
+								<input type="radio" name="pcategory" id="radio-choice-ab" value="1" checked="checked">
+								<label for="radio-choice-ab">House</label>
+								<input type="radio" name="ptype" id="radio-choice-bb" value="2">
+								<label for="radio-choice-bb">Apartment</label>
+								<input type="radio" name="ptype" id="radio-choice-cb" value="3">
+								<label for="radio-choice-cb">Land</label>
+								<input type="radio" name="ptype" id="radio-choice-db" value="4">
+								<label for="radio-choice-db">Farm House</label>
+								<input type="radio" name="ptype" id="radio-choice-eb" value="5">
+								<label for="radio-choice-eb">Service Apartment</label>
+							</fieldset>
+						</li>
+						<li data-role="fieldcontain">
+						<button type="submit" class="ui-btn frm1_btn" id="frm1_btn">Search Property</button>
+						</li>
+					</ul>
+				</form>	
+			</div>
+			<div id="two" class="ui-body-d ui-content">
+				<h2>Content coming soon...</h2>
+			</div>
+			<div id="three" class="ui-body-d ui-content">
+				<h2>Content coming soon 3...</h2>
+			</div>
+		</div>
+        </div>
+
+    </div>
+    <!--end of page one---->
+	<!--start of page two---->
+	<div data-role="page" id="searchlist_page" data-theme='b' >
+		
+		<div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme='b'>
+            <a href="#search_page" data-ajax="false"><i class='fa fa-bars'></i></a>
+            <h1>Property Market</h1>
+        </div>
+        <div data-role="content">   
+        
+          <ul data-role="listview" data-inset="false" data-icon="false" data-divider-theme="b" id="propertylist" class="property_list_ul">
+           <!--<li data-role="list-divider">Property Available</li>
+            <li><a href="#">
+                <img src="http://www.placehold.it/150x150">
+                <h2>Stephen Weber</h2>
+                <p>Hey Stephen, if you're available at 10am tomorrow, we've got a meeting with the jQuery team.</p>
+                <p class="ui-li-aside"><strong>6:24</strong>PM</p>
+            </a></li>-->
+        </ul>
+        
+        </div>
+
+    </div>	
+	<!--end of page two---->
+	<!--start of page two---->
+	<div data-role="page" id="mortgage_calc_page" data-theme='b' >
+	
+	</div>
+	<!--end of page three---->
+	<!--start of page four---->
+	<div data-role="page" id="mortgage_result_page" data-theme='b' >
+	
+	</div>
+	<!--end of page four---->
+	<!--start of page five---->
+	<div data-role="page" id="camera_page" data-theme='b' >
+	
+	</div>
+	<!--end of page five---->
+	<!--start of page six---->
+	<div data-role="page" id="feedback_page" data-theme='b' >
+	
+	</div>
+	<!--end of page six---->
+	<!--start of page seven---->
+	<div data-role="page" id="feedback_edit_page" data-theme='b' >
+	
+	</div>
+	<!--end of page seven---->
+	<!--start of page eight-->
+	<div data-role="page" id="my_profile_page" data-theme='b' >
+	
+	</div>
+	<!--end of page eight-->
+	
+	</div>
+    </body>
+</html>

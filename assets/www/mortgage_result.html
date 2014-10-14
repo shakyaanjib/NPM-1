@@ -1,0 +1,33 @@
+<div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme='b'>
+            <a href="#search_page" data-ajax="false"><i class='fa fa-bars'></i></a>
+            <h1>Property Market</h1>
+        </div>
+        <div data-role="content"> 
+		<div class='message info'>
+				<i class='fa fa-file-text-o'></i>
+				<h3><b>Mortgage Summary</b></h3>
+			</div>
+			<table data-role="table" id="table-column-toggle" data-mode="columntoggle" class="ui-responsive table-stroke">
+				<tbody>
+                <tr>
+                  <td>Loan amount</th>
+                  <td>Rs.&nbsp;<span id="loan_value"></span></td>
+                </tr>
+				<tr>
+                  <td>Loan Period</th>
+                  <td><span id="loan_period"></span>&nbsp;Years</td>
+                </tr>
+				<tr>
+                  <td>Monthly Payment</th>
+                  <td>Rs.&nbsp;<span id="monthly_value"></span></td>
+                </tr>
+				<tr>
+                  <td>Total Interest Paid</th>
+                  <td>Rs.&nbsp;<span id="interest_value"></span></td>
+                </tr>
+				</tbody>
+			
+			</table>
+			<a href="#search_page" data-role="button" data-inline="true" id="mresult_close"><i class='lIcon fa fa-times'></i>Close</a>
+        </div>
+

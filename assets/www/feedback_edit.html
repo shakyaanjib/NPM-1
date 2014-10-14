@@ -1,0 +1,22 @@
+<div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme='b'>
+            <a href="#search_page" data-ajax="false"><i class='fa fa-bars'></i></a>
+            <h1>Property Market</h1>
+        </div>
+        <div data-role="content">  
+			<div id="one" class="ui-body-d ui-content">
+				<form method="get" id="feedback_edit_frm">
+					<li data-role="fieldcontain">
+							<label for="name2b">Your Name</label>
+							<input type="text" name="feedback_name" id="feedback_edit_name" value="" data-clear-btn="true" placeholder="Type Your Name..." required>
+					</li>
+					<li data-role="fieldcontain">
+                       <label for="textarea2b">Message</label>
+                    <textarea cols="40" rows="8" name="feedback_content" id="feedback_edit_content" placeholder="Type Message..." required></textarea>
+                    </li>
+					<input type="hidden" value="" id="feedback_edit_id" name="feedback_id"/>
+					<li data-role="fieldcontain">
+						<button type="button" class="ui-btn frm1_btn" id="feedback_edit_btn">Update Feedback</button>
+					</li>
+				</form>
+			</div>
+		</div>
