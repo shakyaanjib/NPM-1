@@ -371,8 +371,7 @@ function onDeviceReady () {
 				if(data.response == 'success'){
 					localStorage.setItem('logged_in','true');
 					localStorage.setItem('name', data.userdata['name']);
-					//window.location.href = site_url+'/pmarket/home.html';
-					$.mobile.pageContainer.pagecontainer("change", "home.html", {transition: "slide"});
+					window.location.href = site_url+'/pmarket/home.html';
 				}else{
 					$("#login-error").html("<li data-role='fieldcontain' class='txt-error'>"+data.response+"</li>");
 					$("#login-error").listview('refresh');
