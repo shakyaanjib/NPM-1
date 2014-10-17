@@ -59,6 +59,7 @@ input:invalid {
 
 .txt-center{text-align:center !important;}
 .txt-error{color:red !important;}
+.txt-success{color:green !important;}
 
 /****** buttons ******/
 .btn-blue{background:#0099cc !important; border-radius:10px;}
