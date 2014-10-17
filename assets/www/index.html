@@ -54,7 +54,7 @@
 							<li data-role="fieldcontain">
 								<button type="submit" class="ui-btn frm1_btn" id="login_btn">Login</button>
 							</li>
-							<li data-icon="false">or</li>
+							<li data-icon="false" class="txt-center">or</li>
 							<li data-role="fieldcontain">
 								<button type="button" class="ui-btn btn-gray" onClick="window.location.href='#register_page';">Register</button>
 							</li>
@@ -74,6 +74,11 @@
 			<div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme='b'>
 				<a href="#login_page" data-role='button' data-inline='true'><i class='lIcon fa fa-reply'></i></a>
 				<h1>Property Market</h1>
+			</div>
+			<div id="error-msg-container">
+				<ul data-role="listview" id="error-msg" data-inset="true">
+					
+				</ul>
 			</div>
 			<form method="post" action="" id="forget_pass_frm">
 				<ul data-role="listview" data-inset="true">
@@ -122,7 +127,6 @@
 								<div>
 									<select name="user_type" data-role="none" class="custom_select_menu">
 										<option value="2">&nbsp;Client</option>
-										<option value="1">&nbsp;Admin</option>
 										<option value="3">&nbsp;Broker</option>
 										<option value="4">&nbsp;Company Broker</option>
 										<option value="5">&nbsp;Developer</option>
@@ -134,7 +138,7 @@
 							<li data-role="fieldcontain">
 								<button type="submit" class="ui-btn frm1_btn" id="register_btn">Register</button>
 							</li>
-							<li data-icon="false">or</li>
+							<li data-icon="false" class="txt-center">or</li>
 							<li data-role="fieldcontain">
 								<button type="button" class="ui-btn btn-gray" onClick="window.location.href='#login_page';">Login</button>
 							</li>

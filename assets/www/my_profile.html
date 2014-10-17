@@ -30,4 +30,30 @@
 			</li>
 		</ul>
 	</form>
+	<div class='message info'>
+		<h3><b>My Details</b></h3>
+	</div>
+	<form method="post" id="my_detail_frm">
+		<ul data-role="listview" data-inset="true">
+			<li data-role="fieldcontain">
+				<label for="email">Email</label>
+				<input type="text" name="email" id="email" disabled="disabled" value="">
+			</li>
+			<li data-role="fieldcontain">
+				<label for="contact">Contact No</label>
+				<input type="text" name="contact" id="contact" value="">
+			</li>
+			<li data-role="fieldcontain">
+				<label for="address">Address</label>
+				<input type="text" name="address" id="address" value="">
+			</li>
+			<li data-role="fieldcontain">
+				<label for="dob">DOB</label>
+				<input type="text" data-role="datebox" data-theme="b" data-options='{"mode":"datebox", "overrideDateFormat":"%Y-%m-%d", "themeButton":"d", "themeInput":"a"}' name="dob" id="dob" value="">
+			</li>
+			<li data-role="fieldcontain">
+				<button type="button" class="ui-btn btn-blue" id="my_detail_btn">Update</button>
+			</li>
+		</ul>
+	</form>
 </div>
