@@ -27,7 +27,7 @@ function alertDismissed() {
 function onDeviceReady () {
 	if(localStorage.getItem('logged_in') == 'true'){
 		$("#welcome-msg").html("<a href='#'>Welcome "+localStorage.getItem('name')+"</a>");
-		$("#main-menu").append("<li data-icon='false'><a href='#my_profile_page'><i class='lIcon fa fa-heart'></i>My Profile</a></li><li data-icon='false'><a href='#' id='logout'><i class='lIcon fa fa-power-off'></i>Logout</a></li>");
+		$("#main-menu").append("<li data-icon='false' id='my_profile'><a href='#my_profile_page'><i class='lIcon fa fa-heart'></i>My Profile</a></li><li data-icon='false'><a href='#' id='logout'><i class='lIcon fa fa-power-off'></i>Logout</a></li>");
 		$("#main-menu").listview('refresh');
 	}
 	//part0 - page initialization code
@@ -38,10 +38,21 @@ function onDeviceReady () {
 	$("#feedback_page").load("feedback.html");
 	$("#feedback_edit_page").load("feedback_edit.html");
 	$("#my_profile_page").load("my_profile.html");
+	$("#upload_property_page").load("upload_property.html");
 	//var site_url = "http://k9nepal.com/npmarket";
-	var site_url = "http://192.168.1.3";
+	var site_url = "http://192.168.1.2";
 	var device_width = parseFloat($(window).width())- 40;
 	$(".property_type .ui-controlgroup-controls").css("width",device_width + "px");
+	
+	$("body").on("click", ".checkLogin", function(e){
+		e.preventDefault();
+		if(localStorage.getItem('logged_in') != 'true' && jQuery.isEmptyObject(localStorage.getItem('user_id')) && jQuery.isEmptyObject(localStorage.getItem('name'))){
+			alert("You must login to continue!");
+			window.location.href = "index.html";
+		}else{
+			window.location.href = "#"+$(this).attr("load-page");
+		}
+	});
 	//end of part0
 	
 	//part1 - code to change range slider value to lakh
@@ -371,7 +382,7 @@ function onDeviceReady () {
 				if(data.response == 'success'){
 					localStorage.setItem('logged_in','true');
 					localStorage.setItem('name', data.userdata['name']);
-					window.location.href = site_url+'/pmarket/home.html';
+					window.location.href = 'home.html';
 				}else{
 					$("#login-error").html("<li data-role='fieldcontain' class='txt-error'>"+data.response+"</li>");
 					$("#login-error").listview('refresh');
@@ -386,7 +397,7 @@ function onDeviceReady () {
 	});
 	
 	$("body").on("tap", "#logout", function(){
-		window.location.href = site_url+'/pmarket/index.html';
+		window.location.href = 'index.html';
 		localStorage.clear();
 	});
 	
@@ -403,7 +414,7 @@ function onDeviceReady () {
 				if(data.response == 'success'){
 					$("#login-error").html("<li data-role='fieldcontain' class='txt-success'>"+data.message+"</li>");
 					$("#login-error").listview('refresh');
-					window.location.href = site_url+"/pmarket/index.html";
+					window.location.href = "index.html";
 				}else{
 					$("#error-msg").html("<li data-role='fieldcontain' class='txt-error'>"+data.message+"</li>");
 					$("#error-msg").listview('refresh');
@@ -415,7 +426,55 @@ function onDeviceReady () {
 			}
 		});
 	});
+	//end of part6	
 	
+	//part7 - registration
+	$("#register_frm").on("submit",function(e){
+		e.preventDefault();
+		$.mobile.loading( 'show', {
+		text: 'Loading..',
+		textVisible: true,
+		theme: 'b',
+		html: ""
+		});
+		var uuid = generateUUID();
+		var postData = $(this).serialize()+'&uuid='+uuid;
+		var url = site_url+"/pservice/index.php?method=user-registration";
+		$.ajax({
+			url : url,
+			type: "POST",
+			data : postData,
+			success:function(data, textStatus, jqXHR)
+			{
+				if(data.response == 'success'){
+					window.location.href = 'home.html';
+					localStorage.setItem('logged_in','true');
+					localStorage.setItem('name', data.userdata['name']);
+				}else{
+					$("#register-error").html("<li data-role='fieldcontain' class='txt-error'>"+data.response+"</li>");
+					$("#register-error").listview('refresh');
+				}
+				$.mobile.loading( 'hide');
+			},
+			error: function(jqXHR, textStatus, errorThrown)
+			{
+				$.mobile.loading( 'hide');
+			}
+		});
+	});
+	
+	function generateUUID(){
+		var d = new Date().getTime();
+		var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+			var r = (d + Math.random()*16)%16 | 0;
+			d = Math.floor(d/16);
+			return (c=='x' ? r : (r&0x7|0x8)).toString(16);
+		});
+		return uuid;
+	}
+	//end of part7
+	
+	//part8 - my profile
 	$("body").on("tap", "#change_pass_btn",  function(){
 		var userId = localStorage.getItem('user_id');
 		var postData = $("#change_pass_frm").serialize()+'&user_id='+userId;
@@ -442,53 +501,85 @@ function onDeviceReady () {
 			}
 		});
 	});
-	//end of part6
 	
-	//part7 - registration
-	$("#register_frm").on("submit",function(e){
-		e.preventDefault();
-		$.mobile.loading( 'show', {
-		text: 'Loading..',
-		textVisible: true,
-		theme: 'b',
-		html: ""
-		});
-		var uuid = generateUUID();
-		var postData = $(this).serialize()+'&uuid='+uuid;
-		var url = site_url+"/pservice/index.php?method=user-registration";
+	$("body").on("tap", "#my_profile", function(){
+		var id = localStorage.getItem('user_id');
+		var url = site_url+"/pservice/index.php?method=get-profile-data&id="+id;
 		$.ajax({
 			url : url,
-			type: "POST",
-			data : postData,
+			type: "GET",
 			success:function(data, textStatus, jqXHR)
 			{
 				if(data.response == 'success'){
-					window.location.href = site_url+'/pmarket/home.html';
-					localStorage.setItem('logged_in','true');
-					localStorage.setItem('name', data.userdata['name']);
+					$.each(data, function( index, value ){
+						$("#my_detail_frm #email").val(value.email);
+						$("#my_detail_frm #contact").val(value.contact);
+						$("#my_detail_frm #address").val(value.address);
+						$("#my_detail_frm #dob").val(value.DOB);
+					});
 				}else{
-					$("#register-error").html("<li data-role='fieldcontain' class='txt-error'>"+data.response+"</li>");
-					$("#register-error").listview('refresh');
+					alert(data.response);
 				}
-				$.mobile.loading( 'hide');
 			},
 			error: function(jqXHR, textStatus, errorThrown)
 			{
-				$.mobile.loading( 'hide');
+				//if fails     
 			}
 		});
 	});
 	
-	function generateUUID(){
-		var d = new Date().getTime();
-		var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-			var r = (d + Math.random()*16)%16 | 0;
-			d = Math.floor(d/16);
-			return (c=='x' ? r : (r&0x7|0x8)).toString(16);
+	$("body").on("tap", "#my_detail_btn", function(){
+		var id = localStorage.getItem('user_id');
+		var postData = $("#my_detail_frm").serialize()+"&id="+id;
+		var url = site_url+'/pservice/index.php?method=update-profile';
+		$.ajax({
+			url: url,
+			type: "POST",
+			data: postData,
+			success: function(data, textStatus, jqXHR)
+			{
+				if(data.response == 'success'){
+					$("#error-msg").html("<li data-role='fieldcontain' class='txt-success'>Your profile has been updated successfully.</li>");
+					$("#error-msg").listview('refresh');
+				}
+				if(data.response == 'fail'){
+					$("#error-msg").html("<li data-role='fieldcontain' class='txt-error'>Sorry your request could not be completed.</li>");
+					$("#error-msg").listview('refresh');
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown)
+			{
+				//if fails     
+			}
 		});
-		return uuid;
-	}
-	//end of part7
+	});
+	//end of part8
+	
+	//part9 - buy sell property
+	$("body").on("change", "#upload_property_frm #category", function(){
+		switch($("#upload_property_frm #category").val()){
+			case '1':
+				$("<li data-role='fieldcontain'>"+
+					"<label for='area'>Area</label>"+
+					"<input type='text' name='house_area' id='house_area' required></li>"+
+					"<li data-role='fieldcontain'>"+
+					"<label for='bedroom'>Bedroom</label>"+
+					"<input type='text' name='bedroom' id='bedroom' required></li>").insertBefore("#upload_property_frm .ui-last-child");
+				$("#ul_upload_property_frm").listview("refresh");
+				break;
+			case '2':
+				break;
+			case '3':
+				break;
+			case '4':
+				break;
+			case '5':
+				break;
+			default:
+				$("#ul_upload_property_frm").listview("refresh");
+		}
+	});
+	//end of part9
 
 	
     
