@@ -1,5 +1,5 @@
-//var site_url = "http://192.168.1.4";
-var site_url = "http://k9nepal.com/npmarket";
+var site_url = "http://192.168.1.10";
+//var site_url = "http://k9nepal.com/npmarket";
 var pictureSource;   // picture source
 var destinationType; // sets the format of returned value
 var upload_property_filename;
@@ -11,8 +11,16 @@ function onLoad() {
 	destinationType = navigator.camera.DestinationType;
 }
 
-function onBackKeyDown() {
-    navigator.notification.confirm("Are you sure you want to exit ?", onConfirm, "Confirmation", "Yes,No"); 
+function onBackKeyDown(e) {
+    //navigator.notification.confirm("Are you sure you want to exit ?", onConfirm, "Confirmation", "Yes,No");
+	var sPath=window.location.pathname;
+	var sPage = sPath.substring(sPath.lastIndexOf('/') + 1);
+	if(sPage == "index.html"){
+		e.preventDefault();
+		navigator.notification.confirm("Are you sure you want to exit ?", onConfirm, "Confirmation", "Yes,No");
+	}else{
+		navigator.app.backHistory();
+	}
 }
     
 function onConfirm(button) {
@@ -61,24 +69,45 @@ function onDeviceReady () {
 //end of part0
 	
 //part1 - code to change range slider value to lakh
-	$( ".range_left" ).on( 'change', function( event ) { 
-		var num = $( ".range_left" ).val();
+	//buy range slider
+	$( ".buy_range_left" ).on( 'change', function( event ) { 
+		var num = $( ".buy_range_left" ).val();
 		if( num >= 10000000){
 			var num2 = num/10000000;
-			$( "#rval1" ).html(num2+' Crore');
+			$( "#buy_rval1" ).html(num2+' Crore');
 		}else{
 			var num2 = num/100000;
-			$( "#rval1" ).html(num2+' Lakh');
+			$( "#buy_rval1" ).html(num2+' Lakh');
 		}
 	});
-	$( ".range_right" ).on( 'change', function( event ) { 
-		var num = $( ".range_right" ).val();
+	$( ".buy_range_right" ).on( 'change', function( event ) { 
+		var num = $( ".buy_range_right" ).val();
 		if( num >= 10000000){
 			var num2 = num/10000000;
-			$( "#rval2" ).html(num2+' Crore');
+			$( "#buy_rval2" ).html(num2+' Crore');
 		}else{
 			var num2 = num/100000;
-			$( "#rval2" ).html(num2+' Lakh');
+			$( "#buy_rval2" ).html(num2+' Lakh');
+		}
+	});
+	
+	//rent range slider
+	$( ".rent_range_left" ).on( 'change', function( event ) { 
+		var num = $( ".rent_range_left" ).val();
+		if( num >= 100000){
+			var num2 = num/100000;
+			$( "#rent_rval1" ).html(num2+' Lakh');
+		}else{
+			$( "#rent_rval1" ).html(num);
+		}
+	});
+	$( ".rent_range_right" ).on( 'change', function( event ) { 
+		var num = $( ".rent_range_right" ).val();
+		if( num >= 100000){
+			var num2 = num/100000;
+			$( "#rent_rval2" ).html(num2+' Lakh');
+		}else{
+			$( "#rent_rval2" ).html(num);
 		}
 	});
 //end of part1
@@ -93,7 +122,7 @@ function onDeviceReady () {
 			theme: 'b',
 			html: ""
 		});
-		var atLeastOneIsChecked = $('input[name="pcategory[]"]:checked').length > 0;
+		var atLeastOneIsChecked = $('input[name="buypcategory[]"]:checked').length > 0;
 		if(atLeastOneIsChecked){
 			var postData = $(this).serialize();
 			var url = site_url+"/pservice/index.php?method=property-sale";
@@ -125,7 +154,7 @@ function onDeviceReady () {
 			theme: 'b',
 			html: ""
 		});
-		var atLeastOneIsChecked = $('input[name="pcategory[]"]:checked').length > 0;
+		var atLeastOneIsChecked = $('input[name="rentpcategory[]"]:checked').length > 0;
 		if(atLeastOneIsChecked){
 			var postData = $(this).serialize();
 			var url = site_url+"/pservice/index.php?method=property-rent";
@@ -152,12 +181,11 @@ function onDeviceReady () {
 		var listdata = data;
 		var item  = "<li data-role='list-divider'>Property Available</li>";
 		$.each( listdata, function( index, value ){
-		item += "<li class='ui-li-has-thumb'><a href='#property_detail_page' class='ui-btn li-property-list' id='"+value.propertyID+"'>"+
-					"<img src='"+site_url+'/'+value.featuredImage+"'>"+
-					"<h2>"+value.bedrooms+" Bedroom</h2>"+
-					"<p>"+value.propertyTitle+"</p>"+
-					"<p class='ui-li-aside'><strong>Rs."+value.price+"</strong><br/><strong>Contact: "+value.name+"</strong><br/><strong>Phone: "+value.contact+"</strong></p></a></li>";
-		
+			item += "<li class='ui-li-has-thumb'><a href='#property_detail_page' class='ui-btn li-property-list' id='"+value.propertyID+"'>"+
+	                "<img src='"+site_url+'/'+value.featuredImage+"'>"+
+	                "<h2>"+value.bedrooms+" Bedroom</h2>"+
+	                "<p>"+value.propertyArea+" "+value.areaUnit+"</p></a>"+
+	                "<p class='ui-li-aside'><strong>Rs."+value.price+"</strong><br/><strong>Contact: "+value.name+"</strong><br/><a href='tel:"+value.contact+"'><strong>Mob: "+value.contact+"</strong></a></p></li>";
 		});
 		$("#propertylist").html(item);
 		setTimeout(function(){$.mobile.changePage('#searchlist_page', { transition: "slide"});},300);
@@ -757,26 +785,26 @@ function onDeviceReady () {
 						item += "<div><img u='image' src='"+site_url+"/"+value.imageLink+"'/></div>";
 					});
 					$("#slides_container").html(item, function(){
-						$(this).trigger("create");
+						$(".li_slider1_container").trigger("create");
 					});
 					loadSlider();
 					$("#ul_property_detail").append('<li data-role="list-divider">Property Information</li>'+
-						'<li id="detail-propertyType"><strong>Type: </strong>House</li>'+
-						'<li id="detail-price"><strong>Price: </strong>'+detailData.price+'</li>'+
-						'<li id="detail-refNumber"><strong>Reference Number: </strong>'+detailData.refNumber+'</li>'+
-						'<li id="detail-propertyArea"><strong>Property Area: </strong>'+detailData.propertyArea+' '+detailData.areaUnit+'</li>'+
-						'<li id="detail-bedroom"><strong>Bedrooms: </strong>'+detailData.bedrooms+'</li>'+
-						'<li id="detail-livingroom"><strong>Living Rooms: </strong>'+detailData.livingroom+'</li>'+
-						'<li id="detail-bathroom"><strong>Bathrooms: </strong>'+detailData.bathroom+'</li>'+
-						'<li id="detail-floor"><strong>Total Floors: </strong>'+detailData.floor+'</li>'+
-						'<li id="detail-furnished"><strong>Furnished: </strong>'+detailData.furnished+'</li>'+
+						'<li id="detail-propertyType" class="li-property-detail"><strong>Type: </strong>House</li>'+
+						'<li id="detail-price" class="li-property-detail"><strong>Price: </strong>'+detailData.price+'</li>'+
+						'<li id="detail-refNumber" class="li-property-detail"><strong>Reference Number: </strong>'+detailData.refNumber+'</li>'+
+						'<li id="detail-propertyArea" class="li-property-detail"><strong>Property Area: </strong>'+detailData.propertyArea+' '+detailData.areaUnit+'</li>'+
+						'<li id="detail-bedroom" class="li-property-detail"><strong>Bedrooms: </strong>'+detailData.bedrooms+'</li>'+
+						'<li id="detail-livingroom" class="li-property-detail"><strong>Living Rooms: </strong>'+detailData.livingroom+'</li>'+
+						'<li id="detail-bathroom" class="li-property-detail"><strong>Bathrooms: </strong>'+detailData.bathroom+'</li>'+
+						'<li id="detail-floor" class="li-property-detail"><strong>Total Floors: </strong>'+detailData.floor+'</li>'+
+						'<li id="detail-furnished" class="li-property-detail"><strong>Furnished: </strong>'+detailData.furnished+'</li>'+
 						'<li data-role="list-divider">Property Description</li>'+
-						'<li id="detail-propertyDescription">'+detailData.propertyDesc+'</li>'+
+						'<li id="detail-propertyDescription" class="li-property-detail">'+detailData.propertyDesc+'</li>'+
 						'<li data-role="list-divider">Contact Information</li>'+
-						'<li id="detail-contName"><strong>Contact Person: </strong>'+detailData.name+'</li>'+
-						'<li id="detail-contMobile"><strong>Mobile Number: </strong>'+detailData.contact+'</li>'+
-						'<li id="detail-contAddress"><strong>Address: </strong>'+detailData.address+'</li>'+
-						'<li id="detail-contEmail"><strong>Email: </strong>'+detailData.email+'</li>');
+						'<li id="detail-contName" class="li-property-detail"><strong>Contact Person: </strong>'+detailData.name+'</li>'+
+						'<li id="detail-contMobile" class="li-property-detail"><strong>Mobile Number: </strong>'+detailData.contact+'</li>'+
+						'<li id="detail-contAddress" class="li-property-detail"><strong>Address: </strong>'+detailData.address+'</li>'+
+						'<li id="detail-contEmail" class="li-property-detail"><strong>Email: </strong>'+detailData.email+'</li>');
 					$("body #property_detail_page_inner").trigger("create");
 										
 					/*$("#detail-refNumber").html("<strong>Reference Number: </strong>"+detailData.refNumber);
@@ -913,7 +941,7 @@ function onDeviceReady () {
 		}
 	}
 	
-	function loadSlider(){
+	/*function loadSlider(){
 		var options = {
 			$AutoPlay: true,
 			$AutoPlaySteps: 4,
@@ -954,6 +982,63 @@ function onDeviceReady () {
 			var bodyWidth = document.body.clientWidth;
 			if (bodyWidth)
 				jssor_slider1.$ScaleWidth(Math.min(bodyWidth, 809));
+			else
+				window.setTimeout(ScaleSlider, 30);
+		}
+
+		ScaleSlider();
+
+		if (!navigator.userAgent.match(/(iPhone|iPod|iPad|BlackBerry|IEMobile)/)) {
+			$(window).bind('resize', ScaleSlider);
+		}
+	}*/
+	function loadSlider(){
+		var options = {
+			$FillMode: 1,                                       //[Optional] The way to fill image in slide, 0 stretch, 1 contain (keep aspect ratio and put all inside slide), 2 cover (keep aspect ratio and cover whole slide), 4 actual size, 5 contain for large image, actual size for small image, default value is 0
+			$AutoPlay: true,                                    //[Optional] Whether to auto play, to enable slideshow, this option must be set to true, default value is false
+			$AutoPlayInterval: 4000,                            //[Optional] Interval (in milliseconds) to go for next slide since the previous stopped if the slider is auto playing, default value is 3000
+			$PauseOnHover: 1,                                   //[Optional] Whether to pause when mouse over if a slider is auto playing, 0 no pause, 1 pause for desktop, 2 pause for touch device, 3 pause for desktop and touch device, 4 freeze for desktop, 8 freeze for touch device, 12 freeze for desktop and touch device, default value is 1
+
+			$ArrowKeyNavigation: true,   			            //[Optional] Allows keyboard (arrow key) navigation or not, default value is false
+			$SlideEasing: $JssorEasing$.$EaseOutQuint,          //[Optional] Specifies easing for right to left animation, default value is $JssorEasing$.$EaseOutQuad
+			$SlideDuration: 800,                               //[Optional] Specifies default duration (swipe) for slide in milliseconds, default value is 500
+			$MinDragOffsetToSlide: 20,                          //[Optional] Minimum drag offset to trigger slide , default value is 20
+			//$SlideWidth: 600,                                 //[Optional] Width of every slide in pixels, default value is width of 'slides' container
+			//$SlideHeight: 300,                                //[Optional] Height of every slide in pixels, default value is height of 'slides' container
+			$SlideSpacing: 0, 					                //[Optional] Space between each slide in pixels, default value is 0
+			$DisplayPieces: 1,                                  //[Optional] Number of pieces to display (the slideshow would be disabled if the value is set to greater than 1), the default value is 1
+			$ParkingPosition: 0,                                //[Optional] The offset position to park slide (this options applys only when slideshow disabled), default value is 0.
+			$UISearchMode: 1,                                   //[Optional] The way (0 parellel, 1 recursive, default value is 1) to search UI components (slides container, loading screen, navigator container, arrow navigator container, thumbnail navigator container etc).
+			$PlayOrientation: 1,                                //[Optional] Orientation to play slide (for auto play, navigation), 1 horizental, 2 vertical, 5 horizental reverse, 6 vertical reverse, default value is 1
+			$DragOrientation: 1,                                //[Optional] Orientation to drag slide, 0 no drag, 1 horizental, 2 vertical, 3 either, default value is 1 (Note that the $DragOrientation should be the same as $PlayOrientation when $DisplayPieces is greater than 1, or parking position is not 0)
+
+			$BulletNavigatorOptions: {                          //[Optional] Options to specify and enable navigator or not
+				$Class: $JssorBulletNavigator$,                 //[Required] Class to create navigator instance
+				$ChanceToShow: 2,                               //[Required] 0 Never, 1 Mouse Over, 2 Always
+				$AutoCenter: 1,                                 //[Optional] Auto center navigator in parent container, 0 None, 1 Horizontal, 2 Vertical, 3 Both, default value is 0
+				$Steps: 1,                                      //[Optional] Steps to go for each navigation request, default value is 1
+				$Lanes: 1,                                      //[Optional] Specify lanes to arrange items, default value is 1
+				$SpacingX: 8,                                   //[Optional] Horizontal space between each item in pixel, default value is 0
+				$SpacingY: 8,                                   //[Optional] Vertical space between each item in pixel, default value is 0
+				$Orientation: 1                                 //[Optional] The orientation of the navigator, 1 horizontal, 2 vertical, default value is 1
+			},
+
+			$ArrowNavigatorOptions: {                           //[Optional] Options to specify and enable arrow navigator or not
+				$Class: $JssorArrowNavigator$,                  //[Requried] Class to create arrow navigator instance
+				$ChanceToShow: 1,                               //[Required] 0 Never, 1 Mouse Over, 2 Always
+				$AutoCenter: 2,                                 //[Optional] Auto center arrows in parent container, 0 No, 1 Horizontal, 2 Vertical, 3 Both, default value is 0
+				$Steps: 1                                       //[Optional] Steps to go for each navigation request, default value is 1
+			}
+		};
+
+		var jssor_slider1 = new $JssorSlider$("slider1_container", options);
+
+		//responsive code begin
+		//you can remove responsive code if you don't want the slider scales while window resizes
+		function ScaleSlider() {
+			var bodyWidth = document.body.clientWidth;
+			if (bodyWidth)
+				jssor_slider1.$ScaleWidth(Math.min(bodyWidth, 1920));
 			else
 				window.setTimeout(ScaleSlider, 30);
 		}
@@ -1024,6 +1109,7 @@ function onDeviceReady () {
 				
 				});
 				$("#developerPropertyList").html(item);
+				$("#developerPropertyList").listview("refresh");
 				$.mobile.loading('hide');
 			},
 			error: function(jqXHR, textStatus, errorThrown)

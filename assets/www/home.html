@@ -44,7 +44,7 @@
         <ul data-role="listview" id="main-menu">
             <li data-icon="false" id="welcome-msg"><a href="#" onClick="window.location.href=index.html;"><i class='lIcon fa fa-user'></i>Login or Register</a></li>
             <li data-icon='false'><a href="#" class="checkLogin" load-page="upload_property_page"><i class='lIcon fa fa-upload'></i>Upload Property</a></li>
-            <li data-icon='false' id="my_property_listing"><a href="#"><i class='lIcon fa fa-list'></i>My Property Listing</a></li>
+            <li data-icon='false' class="checkLogin" id="my_property_listing"><a href="#"><i class='lIcon fa fa-list'></i>My Property Listing</a></li>
             <li data-icon='false' id="settings"><a href="#"><i class='lIcon fa fa-wrench'></i>Settings</a></li>
             <li data-icon='false' data-role="none"><hr /></li>
             <li data-icon='false'><a href="#"><i class='lIcon fa fa-music'></i>Property for Rent</a></li>
@@ -90,15 +90,24 @@
 						<li data-role="fieldcontain">
 							<div data-role='rangeslider' class="range_container">
 								<label for='rangeslider1a'>Price Range</label>
-								<input type='range' name='pricelow' id='range1a' min='0' max='100000000' value='0' class="range_left hidden" step="10000"><span id="rval1">0</span>
+								<input type='range' name='pricelow' id='range1a' min='0' max='100000000' value='0' class="buy_range_left hidden" step="10000"><span id="buy_rval1">0</span>
 								<label for='rangeslider1b'>Price Range</label>
-								<input type='range' name='pricehigh' id='range1b' min='0' max='100000000' value='100000000' class="range_right hidden" step="10000"><span id="rval2" class="num_holder_right">10 Crore</span>
+								<input type='range' name='pricehigh' id='range1b' min='0' max='100000000' value='100000000' class="buy_range_right hidden" step="10000"><span id="buy_rval2" class="num_holder_right">10 Crore</span>
 							</div>
-						</li> 
+						</li>
 						<li data-role="fieldcontain">
-							<fieldset id="propertyCategory" data-role="controlgroup" data-type="horizontal" data-mini="true" class="property_type">
+							<fieldset id="propertyCategory" data-role="controlgroup" data-type="horizontal" class="property_type">
 								<legend>Property Type</legend>
-									
+									<input name="buypcategory[]" id="1" value="1" type="checkbox">
+									<label for="1">House</label>
+									<input name="buypcategory[]" id="2" value="2" type="checkbox">
+									<label for="2">Apartment</label>
+									<input name="buypcategory[]" id="3" value="3" type="checkbox">
+									<label for="3">Land</label>
+									<input name="buypcategory[]" id="4" value="4" type="checkbox">
+									<label for="4">Farm House</label>
+									<input name="buypcategory[]" id="5" value="5" type="checkbox">
+									<label for="5">Service Apartment</label>
 							</fieldset>
 						</li>
 						<li data-role="fieldcontain">
@@ -127,17 +136,26 @@
 							<input type="text" name="location" id="location_input" value="" data-clear-btn="true" placeholder="Type Location Name...">
 						</li>
 						<li data-role="fieldcontain">
-								<div data-role='rangeslider' class="range_container">
-									<label for='rangeslider1a'>Price Range</label>
-										<input type='range' name='pricelow' id='range1a' min='0' max='100000000' value='0' class="range_left hidden" step="10000"><span id="rval1">0</span>
-									<label for='rangeslider1b'>Price Range</label>
-										<input type='range' name='pricehigh' id='range1b' min='0' max='100000000' value='100000000' class="range_right hidden" step="10000"><span id="rval2" class="num_holder_right">10 Crore</span>
-								</div>
+							<div data-role='rangeslider' class="range_container">
+								<label for='rangeslider1a'>Price Range</label>
+								<input type='range' name='pricelow' id='range1a' min='0' max='1000000' value='0' class="rent_range_left hidden" step="10000"><span id="rent_rval1">0</span>
+								<label for='rangeslider1b'>Price Range</label>
+								<input type='range' name='pricehigh' id='range1b' min='0' max='1000000' value='1000000' class="rent_range_right hidden" step="10000"><span id="rent_rval2" class="num_holder_right">10 Lakh</span>
+							</div>
 						</li>
 						<li data-role="fieldcontain">
 							<fieldset id="propertyCategory" data-role="controlgroup" data-type="horizontal" data-mini="true" class="property_type">
 								<legend>Property Type</legend>
-									
+									<input name="rentpcategory[]" id="1" value="1" type="checkbox">
+									<label for="1">House</label>
+									<input name="rentpcategory[]" id="2" value="2" type="checkbox">
+									<label for="2">Apartment</label>
+									<input name="rentpcategory[]" id="3" value="3" type="checkbox">
+									<label for="3">Land</label>
+									<input name="rentpcategory[]" id="4" value="4" type="checkbox">
+									<label for="4">Farm House</label>
+									<input name="rentpcategory[]" id="5" value="5" type="checkbox">
+									<label for="5">Service Apartment</label>
 							</fieldset>
 						</li>
 						<li data-role="fieldcontain">

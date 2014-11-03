@@ -16,13 +16,14 @@ li.ui-tabs-active > a {
     color: rgb(255, 255, 255) !important;
     text-shadow: 0 1px 0 #B6DB49 !important;
 }
-.range_left{margin-left:-8px}
-.range_right{margin-right:8px}
+.buy_range_left, .rent_range_left {margin-left:-8px}
+.buy_range_right, .rent_range_right{margin-right:8px}
 input.ui-slider-input {width:50px !important; padding-top:8px !important;}
 .hidden{display:none !important;}
 .range_container{position:relative; padding-top:15px;}
-#rval1{position:absolute; top:0; left:2px;}
-#rval2{position:absolute; top:0;  right:2px;}
+#buy_rval1, #rent_rval1{position:absolute; top:0; left:2px;}
+#buy_rval2, #rent_rval2{position:absolute; top:0;  right:2px;}
+/*#propertyCategory{overflow-x: auto;}*/
 .property_type .ui-controlgroup-controls{width:100%; overflow:auto;}
 .property_type .ui-controlgroup-controls .ui-radio{display:inline-block; float:none;}
 .ui-listview > .ui-li-static {
@@ -69,28 +70,36 @@ input:invalid {
 /****** end of buttons *****/
 
 
-/****** slider ******/
-.jssorb03 div, .jssorb03 div:hover, .jssorb03 .av {
-	background: url(../img/b03.png) no-repeat;
-	overflow:hidden;
-	cursor: pointer;
+/****** full width slider ******/
+.li_slider1_container{ padding-left: 0 !important; padding-right: 0 !important; }
+.jssorb21 div, .jssorb21 div:hover, .jssorb21 .av
+{
+    background: url(../img/b21.png) no-repeat;
+    overflow:hidden;
+    cursor: pointer;
 }
-.jssorb03 div { background-position: -5px -4px; }
-.jssorb03 div:hover, .jssorb03 .av:hover { background-position: -35px -4px; }
-.jssorb03 .av { background-position: -65px -4px; }
-.jssorb03 .dn, .jssorb03 .dn:hover { background-position: -95px -4px; }
+.jssorb21 div { background-position: -5px -5px; }
+.jssorb21 div:hover, .jssorb21 .av:hover { background-position: -35px -5px; }
+.jssorb21 .av { background-position: -65px -5px; }
+.jssorb21 .dn, .jssorb21 .dn:hover { background-position: -95px -5px; }
 
-.jssora03l, .jssora03r, .jssora03ldn, .jssora03rdn {
+.jssora21l, .jssora21r, .jssora21ldn, .jssora21rdn
+{
 	position: absolute;
 	cursor: pointer;
 	display: block;
-	background: url(../img/a03.png) no-repeat;
-	overflow:hidden;
+    background: url(../img/a21.png) center center no-repeat;
+    overflow: hidden;
 }
-.jssora03l { background-position: -3px -33px; }
-.jssora03r { background-position: -63px -33px; }
-.jssora03l:hover { background-position: -123px -33px; }
-.jssora03r:hover { background-position: -183px -33px; }
-.jssora03ldn { background-position: -243px -33px; }
-.jssora03rdn { background-position: -303px -33px; }
-/****** end of slider ******/
+.jssora21l { background-position: -3px -33px; }
+.jssora21r { background-position: -63px -33px; }
+.jssora21l:hover { background-position: -123px -33px; }
+.jssora21r:hover { background-position: -183px -33px; }
+.jssora21ldn { background-position: -243px -33px; }
+.jssora21rdn { background-position: -303px -33px; }
+/****** end of full width slider ******/
+
+#ul_property_detail .li-property-detail{
+	font-size: 14px !important;
+	padding: 2px 15px !important;
+}

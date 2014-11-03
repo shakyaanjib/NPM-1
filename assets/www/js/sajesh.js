@@ -14,9 +14,9 @@ var app = {
 		}
 	},
 	
-	deviceReady : function(){
+	/*deviceReady : function(){
 		propertyMatket.initialize();
-	}
+	}*/
 };
 
 var ajaxCalls = {
@@ -51,7 +51,7 @@ var ajaxCalls = {
 	}
 };
 
-var propertyMatket = {
+/*var propertyMatket = {
 	initialize : function(){
 		this.listCategory();
 	},
@@ -65,5 +65,13 @@ var propertyMatket = {
 			$("#propertyCategory .ui-controlgroup-controls ").append(home).trigger("create");
 		});
 		
+		$("#propertyCategory .ui-controlgroup-controls ").trigger("create");
+		
+		var width = 0;
+		$("#propertyCategory .ui-checkbox").each(function(){
+			width += parseInt($(this).width());
+		});
+		
+		$("#propertyCategory .ui-controlgroup-controls ").css("width", width+"px");
 	}
-};
+};*/
