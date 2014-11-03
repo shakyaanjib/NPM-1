@@ -1,0 +1,42 @@
+<ul data-role="listview" data-inset="true" id="ul_property_details">
+	<li data-role="fieldcontain">
+		<label for="property_area">Property Area</label>
+		<input type="text" name="property_area" id="property_area" required>
+	</li>
+	<li data-role="fieldcontain">
+		<label for="area_unit">Area Unit</label>
+		<select name="area_unit" id="area_unit" class="custom_select_menu" data-role="none">
+			<option value="Sq.ft.">&nbsp;Sq.ft.</option>
+			<option value="Sq. Yards">&nbsp;Sq. Yards</option>
+			<option value="Sq. Meter">&nbsp;Sq. Meter</option>
+			<option value="Ropani">&nbsp;Ropani</option>
+			<option value="Acres">&nbsp;Acres</option>
+			<option value="Bigha">&nbsp;Bigha</option>
+			<option value="Hectares">&nbsp;Hectares</option>
+		</select>
+	</li>
+	<li data-role="fieldcontain">
+		<label for="floor">Total Floors</label>
+		<input type="text" name="floor" id="floor" required>
+	</li>
+	<li data-role="fieldcontain">
+		<label for="road_access">Road Access</label>
+		<input type="text" name="road_access" id="road_access" required>
+	</li>
+	<li data-role="fieldcontain">
+		<label for="price">Price</label>
+		<input type="text" name="price" id="price" required>
+	</li>
+	<li data-role="fieldcontain">
+		<label for="property_desc">Property Description</label>
+		<textarea name="property_desc" id="property_desc" required></textarea>
+	</li>
+	<li data-role="fieldcontain">
+		<input type="hidden" name="posted_by" id="posted_by" value="">
+		<button type="submit" class="ui-btn btn-blue" id="upload_property_btn">Submit</button>
+	</li>
+	<li data-role="fieldcontain">
+		<div class="progress-bar"></div >
+	</li>
+	<li class="progress-percent txt-center"></li>
+</ul>

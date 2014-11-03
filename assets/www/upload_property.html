@@ -2,64 +2,72 @@
 	<a href="#search_page" data-ajax="false"><i class='fa fa-bars'></i></a>
 	<h1>Property Market</h1>
 </div>
-<div data-role="content"> 
-	<div class='message info'>
-		<h3><b>Sell Property</b></h3>
-	</div>
+<div data-role="content">
 	<form method="post" id="upload_property_frm">
-		<ul data-role="listview" data-inset="true" id="ul_upload_property_frm">
-			<li data-role="fieldcontain">
-				<label for="property_title">Property title</label>
-				<input type="text" name="property_title" id="property_title" required>
-			</li>
-			<li data-role="fieldcontain">
-				<label for="district">District</label>
-				<div>
-					<select name="district" id="district" class="custom_select_menu" data-role="none">
-						<option value="1">&nbsp;Kathmandu</option>
-						<option value="2">&nbsp;Lalitpur</option>
-						<option value="3">&nbsp;Bhaktapur</option>
-						<option value="4">&nbsp;Pokhara</option>
-					</select>
-				</div>
-			</li>
-			<li data-role="fieldcontain">
-				<label for="location">Location</label>
-				<input type="text" name="location" id="location" required>
-			</li>
-			<li data-role="fieldcontain">
-				<label for="category">Category</label>
-				<div>
-					<select name="category" id="category" class="custom_select_menu" data-role="none">
-						<option value="">Select Category</option>
-						<option value="1">&nbsp;House</option>
-						<option value="2">&nbsp;Apartment</option>
-						<option value="3">&nbsp;Land</option>
-						<option value="4">&nbsp;Farm House</option>
-						<option value="5">&nbsp;Service Apartment</option>
-					</select>
-				</div>
-			</li>
-			<li data-role="fieldcontain">
-				<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-					<legend>Furnished:</legend>
-						<input name="furnished" id="furnished" value="Yes" checked="checked" type="radio">
-						<label for="furnished">Yes</label>
-						<input name="furnished" id="not_furnished" value="No" type="radio">
-						<label for="not_furnished">No</label>
-				</fieldset>
-			</li>
-			<li data-role="fieldcontain">
-				<label for="price">Price</label>
-				<input type="text" name="price" id="price" required>
-			</li>
-			<li data-role="fieldcontain">
-				<label for="price">Description</label>
-				<textarea name="price" id="price" required></textarea>
-			</li>
-			<li data-role="fieldcontain">
-				<button type="button" class="ui-btn btn-blue" id="upload_property_btn">Submit</button>
-			</li>
-		</ul>
+		<div data-role="tabs" id="upload_property_tabs" data-theme="b">
+			<div data-role="navbar" class="my_nav">
+				<ul class="home_top_tab">
+				  <li><a href="#basic_information" data-ajax="false">Basic Information</a></li>
+				  <li><a href="#property_details" data-ajax="false">Property Details</a></li>
+				</ul>
+			</div>
+			<div id="basic_information">
+				<div id="status"></div>
+				<ul data-role="listview" data-inset="true" id="ul_basic_information">
+					<li data-role="fieldcontain">
+						<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+							<legend>Property type</legend>
+								<input name="property_type" id="sell" value="1" type="radio" required>
+								<label for="sell">Sell</label>
+								<input name="property_type" id="rent" value="2" type="radio" required>
+								<label for="rent">Rent</label>
+						</fieldset>
+					</li>
+					<li data-role="fieldcontain">
+						<label for="property_category">Property category</label>
+						<div class="select_parent">
+							<select name="property_category" id="property_category" class="custom_select_menu" data-role="none">
+								<option value="">Select Category</option>
+								<option value="1">&nbsp;House</option>
+								<option value="2">&nbsp;Apartment</option>
+								<option value="3">&nbsp;Land</option>
+								<option value="4">&nbsp;Farm House</option>
+								<option value="5">&nbsp;Service Apartment</option>
+							</select>
+						</div>
+					</li>
+					<li data-role="fieldcontain">
+						<label for="property_title">Property title</label>
+						<input type="text" name="property_title" id="property_title" required>
+					</li>
+					<li data-role="fieldcontain">
+						<label for="photo">Photo</label>
+						<button type="button" class="ui-btn ui-btn-inline frm1_btn" id="camera_btn">Take Photo</button>
+						<button type="button" class="ui-btn ui-btn-inline frm1_btn" id="select_photo_btn">Select Photo</button>
+					</li>
+					<li data-role="fieldcontain">
+						<label for="district">District</label>
+						<div class="select_parent">
+							<select name="district" id="district" class="custom_select_menu" data-role="none">
+								<option value="1">&nbsp;Kathmandu</option>
+								<option value="2">&nbsp;Lalitpur</option>
+								<option value="3">&nbsp;Bhaktapur</option>
+								<option value="4">&nbsp;Pokhara</option>
+							</select>
+						</div>
+					</li>
+					<li data-role="fieldcontain">
+						<label for="location">Location</label>
+						<input type="text" name="location" id="location" required>
+					</li>
+					<li data-role="fieldcontain">
+						<button type="button" class="ui-btn btn-blue" id="upload_property_nxt_btn">Next</button>
+					</li>
+				</ul>
+			</div>
+			<div id="property_details">
+				
+			</div>
+		</div>
 	</form>
 </div>
