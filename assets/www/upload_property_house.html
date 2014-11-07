@@ -1,51 +1,64 @@
 <ul data-role="listview" data-inset="true" id="ul_property_details">
 	<li data-role="fieldcontain">
-		<label for="bedroom" class="select">Bed rooms</label>
-		<select name="bedroom" id="bedroom" data-mini="true">
-			<option value="1">1</option>
-			<option value="2">2</option>
-			<option value="3">3</option>
-			<option value="4">4</option>
-			<option value="5">5</option>
-			<option value="6">6</option>
-			<option value="7">7</option>
-			<option value="8">8</option>
-			<option value="9">9</option>
-			<option value="10">10</option>
-			<option value="10+">10+</option>
-		</select>
-	</li>
-	<li data-role="fieldcontain">
-		<label for="livingroom" class="select">Living rooms</label>
-		<select name="livingroom" id="livingroom" data-mini="true">
-			<option value="1">1</option>
-			<option value="2">2</option>
-			<option value="3">3</option>
-			<option value="4">4</option>
-			<option value="5">5</option>
-			<option value="6">6</option>
-			<option value="7">7</option>
-			<option value="8">8</option>
-			<option value="9">9</option>
-			<option value="10">10</option>
-			<option value="10+">10+</option>
-		</select>
-	</li>
-	<li data-role="fieldcontain">
-		<label for="bathroom" class="select">Bath rooms</label>
-		<select name="bathroom" id="bathroom" data-mini="true">
-			<option value="1">1</option>
-			<option value="2">2</option>
-			<option value="3">3</option>
-			<option value="4">4</option>
-			<option value="5">5</option>
-			<option value="6">6</option>
-			<option value="7">7</option>
-			<option value="8">8</option>
-			<option value="9">9</option>
-			<option value="10">10</option>
-			<option value="10+">10+</option>
-		</select>
+		<div class="ui-grid-b">
+			<div class="ui-block-a" style="padding: 0 5px;">
+				<label for="bedroom">Bed rooms</label>
+				<div class="select_parent">
+					<select name="bedroom" id="bedroom" class="custom_select_menu" data-role="none">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+						<option value="10+">10+</option>
+					</select>
+					<div class="select_icon"><i class="lIcon fa fa-chevron-down"></i></div>
+				</div>
+			</div>
+			<div class="ui-block-b" style="padding: 0 5px;">
+				<label for="livingroom">Living rooms</label>
+				<div class="select_parent">
+					<select name="livingroom" id="livingroom" class="custom_select_menu" data-role="none">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+						<option value="10+">10+</option>
+					</select>
+					<div class="select_icon"><i class="lIcon fa fa-chevron-down"></i></div>
+				</div>
+			</div>
+			<div class="ui-block-c" style="padding: 0 5px;">
+				<label for="bathroom">Bath rooms</label>
+				<div class="select_parent">
+					<select name="bathroom" id="bathroom" class="custom_select_menu" data-role="none">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+						<option value="10+">10+</option>
+					</select>
+					<div class="select_icon"><i class="lIcon fa fa-chevron-down"></i></div>
+				</div>
+			</div>
+		</div>
 	</li>
 	<li data-role="fieldcontain">
 		<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
@@ -57,25 +70,32 @@
 		</fieldset>
 	</li>
 	<li data-role="fieldcontain">
-		<label for="property_area">Property Area</label>
-		<input type="text" name="property_area" id="property_area" required>
-	</li>
-	<li data-role="fieldcontain">
-		<label for="area_unit" class="select">Area Unit</label>
-		<select name="area_unit" id="area_unit">
-			<option value="Sq.ft.">&nbsp;Sq.ft.</option>
-			<option value="Anna">&nbsp;Anna</option>
-			<option value="Ropani">&nbsp;Ropani</option>
-			<option value="Bigha">&nbsp;Bigha</option>
-		</select>
+		<div class="ui-grid-a">
+			<div class="ui-block-a" style="padding: 0 5px;">
+				<label for="property_area">Property Area</label>
+				<input onfocus="this.type='number';" name="property_area" id="property_area" required>
+			</div>
+			<div class="ui-block-b" style="padding: 0 5px;">
+				<label for="area_unit">Area Unit</label>
+				<div class="select_parent">
+					<select name="area_unit" id="area_unit" class="custom_select_menu" data-role="none">
+						<option value="Sq.ft.">&nbsp;Sq.ft.</option>
+						<option value="Anna">&nbsp;Anna</option>
+						<option value="Ropani">&nbsp;Ropani</option>
+						<option value="Bigha">&nbsp;Bigha</option>
+					</select>
+					<div class="select_icon"><i class="lIcon fa fa-chevron-down"></i></div>
+				</div>
+			</div>
+		</div>
 	</li>
 	<li data-role="fieldcontain">
 		<label for="floor">Total Floors</label>
-		<input type="text" name="floor" id="floor" required>
+		<input onfocus="this.type='number';" name="floor" id="floor" required>
 	</li>
 	<li data-role="fieldcontain">
 		<label for="price">Price</label>
-		<input type="text" name="price" id="price" required>
+		<input onfocus="this.type='number';" name="price" id="price" required>
 	</li>
 	<li data-role="fieldcontain">
 		<label for="property_desc">Property Description</label>

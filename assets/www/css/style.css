@@ -29,7 +29,9 @@ input.ui-slider-input {width:50px !important; padding-top:8px !important;}
 .ui-listview > .ui-li-static {
     padding: 8px 15px !important;
 }
-.ui-btn-active {border-width:1px !important;}
+.li-property-list { padding-left: 5.75em !important; }
+.ui-listview .ui-li-aside { right: 0.2em; top: 1.7em; }
+/*.ui-btn-active {border-width:1px !important;}*/
 .property_type .ui-btn:focus,.property_type .ui-btn:hover {background:rgba(255, 255, 255, 0.05) !important;}
 .property_type .ui-btn-active:focus,.property_type .ui-btn-active:hover {background:#3C4044 !important;}
 .frm1_btn{background:#0099cc !important; border-radius:10px;}
@@ -60,6 +62,7 @@ input:invalid {
 .txt-center{text-align:center !important;}
 .txt-error{color:red !important;}
 .txt-success{color:green !important;}
+.txt-wrap{white-space: normal !important;}
 
 .progress-bar { background-color: #B4F5B4; width:0%; height:7px; border-radius: 0;}
 .progress-percent { position:absolute; display:inline-block;}
@@ -99,6 +102,15 @@ input:invalid {
 .jssora21rdn { background-position: -303px -33px; }
 /****** end of full width slider ******/
 
+/****** owl slider ******/
+#developer_slider .item img{
+	display: block;
+	width: 100%;
+	height: auto;
+}
+/****** end of owl slider******/
+
+#ul_property_details {padding-left: 0 !important;}
 #ul_property_detail .li-property-detail{
 	font-size: 14px !important;
 	padding: 2px 15px !important;

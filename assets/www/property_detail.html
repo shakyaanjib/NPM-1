@@ -12,7 +12,7 @@
 						<div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block;
 							top: 0px; left: 0px; width: 100%; height: 100%;">
 						</div>
-						<div style="position: absolute; display: block; background: url(../img/loading.gif) no-repeat center center;
+						<div style="position: absolute; display: block; background: url(img/loading.gif) no-repeat center center;
 							top: 0px; left: 0px; width: 100%; height: 100%;">
 						</div>
 					</div>
@@ -49,5 +49,35 @@
 			<li id="detail-contAddress"></li>
 			<li id="detail-contEmail"></li>-->
 		</ul>
+		<ul data-role="listview" data-inset="false" data-icon="false" data-divider-theme="a" id="propertyFeedbackList" class="property_list_ul">
+			<li></li>
+			<li data-role="list-divider">Feedbacks</li>
+			<li>
+				<h2>No feedbacks available.</h2>
+			</li>
+		</ul>
 	</div>
+	<div data-role="footer" data-position="fixed" data-theme="b">
+    	<ul data-role="listview" data-inset="true">
+			<li data-icon="false">
+				<a href="#popupFeedbackPost" onclick="checkLogin()" class="txt-center" load-page="" data-rel="popup" data-position-to="window" data-transition="pop">Post Feedback</a>
+				<div data-role="popup" id="popupFeedbackPost" data-theme="b" class="ui-corner-all">
+				    <form method="post" id="feedback_post_frm">
+				        <div style="padding:10px 20px;">
+				            <h3 style="text-align: center;">Post your comment</h3>
+				            <label for="name">Name</label>
+				            <input name="name" id="name" value="" data-theme="b" type="text" disabled="disabled">
+				            <label for="email">Email</label>
+				            <input name="email" id="email" value="" data-theme="b" type="text" disabled="disabled">
+				            <label for="message">Message</label>
+			                <textarea cols="40" rows="8" name="message" id="message" data-theme="b" placeholder="Your Message" required></textarea>
+			                <input name="property_id" id="property_id" value="" data-theme="b" type="hidden">
+				            <button type="submit" class="ui-btn btn-blue" id="feedback_post_btn">Submit</button>
+				        </div>
+				    </form>
+				</div>
+			</li>
+		</ul>
+    </div>
+    <div id="popup_container"></div>
 </div>

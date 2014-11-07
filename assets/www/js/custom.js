@@ -1,4 +1,4 @@
-var site_url = "http://192.168.1.10";
+var site_url = "http://192.168.1.6";
 //var site_url = "http://k9nepal.com/npmarket";
 var pictureSource;   // picture source
 var destinationType; // sets the format of returned value
@@ -133,6 +133,7 @@ function onDeviceReady () {
 					success:function(data, textStatus, jqXHR)
 					{
 						loadPropertyList(data);
+						$("#sale_frm").trigger("reset");
 					},
 					error: function(jqXHR, textStatus, errorThrown)
 					{
@@ -165,6 +166,7 @@ function onDeviceReady () {
 					success:function(data, textStatus, jqXHR)
 					{
 						loadPropertyList(data);
+						$("#rent_frm").trigger("reset");
 					},
 					error: function(jqXHR, textStatus, errorThrown)
 					{
@@ -185,7 +187,12 @@ function onDeviceReady () {
 	                "<img src='"+site_url+'/'+value.featuredImage+"'>"+
 	                "<h2>"+value.bedrooms+" Bedroom</h2>"+
 	                "<p>"+value.propertyArea+" "+value.areaUnit+"</p></a>"+
-	                "<p class='ui-li-aside'><strong>Rs."+value.price+"</strong><br/><strong>Contact: "+value.name+"</strong><br/><a href='tel:"+value.contact+"'><strong>Mob: "+value.contact+"</strong></a></p></li>";
+	                "<p class='ui-li-aside'><strong>Rs."+value.price+"</strong><br/><strong>Contact:</strong><br/><strong>"+value.name+"</strong>";
+			if(localStorage.getItem('logged_in') == 'true'){
+				item += "<br/><strong><i class='lIcon fa fa-phone'></i><a href='tel:"+value.contact+"'>"+value.contact+"</a></strong></p></li>";
+			}else{
+				item += "<br/><strong><a href='index.html'>Call Me</a></strong></p></li>";
+			}
 		});
 		$("#propertylist").html(item);
 		setTimeout(function(){$.mobile.changePage('#searchlist_page', { transition: "slide"});},300);
@@ -458,6 +465,7 @@ function onDeviceReady () {
 					localStorage.setItem('user_id', data.userdata['userID']);
 					localStorage.setItem('user_type_id', data.userdata['userType']);
 					localStorage.setItem('name', data.userdata['name']);
+					localStorage.setItem('email', data.userdata['email']);
 					window.location.href = 'home.html';
 				}else{
 					$("#login-error").html("<li data-role='fieldcontain' class='txt-error'>"+data.response+"</li>");
@@ -527,6 +535,7 @@ function onDeviceReady () {
 					localStorage.setItem('user_id', data.userdata['userID']);
 					localStorage.setItem('user_type_id', data.userdata['userType']);
 					localStorage.setItem('name', data.userdata['name']);
+					localStorage.setItem('email', data.userdata['email']);
 					window.location.href = "home.html";
 				}else{
 					$("#register-error").html("<li data-role='fieldcontain' class='txt-error'>"+data.response+"</li>");
@@ -712,10 +721,10 @@ function onDeviceReady () {
 	function myPropertyListing(e){
 		e.preventDefault();
 		$.mobile.loading( 'show', {
-		text: 'Loading...',
-		textVisible: true,
-		theme: 'b',
-		html: ""
+			text: 'Loading...',
+			textVisible: true,
+			theme: 'b',
+			html: ""
 		});
 		var url = site_url+"/pservice/index.php?method=my-property-listing";
 		var id = localStorage.getItem('user_id');
@@ -755,6 +764,12 @@ function onDeviceReady () {
 	
 	//clicking a property list
 	$("body").on("tap", ".li-property-list", function(){
+		$.mobile.loading( 'show', {
+			text: 'Loading...',
+			textVisible: true,
+			theme: 'b',
+			html: ""
+		});
 		var id = $(this).attr("id");
 		var postData = "id="+id;
 		var url = site_url+"/pservice/index.php?method=property-detail";
@@ -777,162 +792,204 @@ function onDeviceReady () {
 	function loadPropertyDetail(data){
 		var detailData = data.detail;
 		var galleryData = data.gallery;
+		
 		switch(detailData.propertyCategory){
 			case '1':
 				$("#property_detail_page").load("property_detail.html", function(){
 					var item  = "";
+					var popupItem = "";
 					$.each(galleryData, function(index, value){
-						item += "<div><img u='image' src='"+site_url+"/"+value.imageLink+"'/></div>";
+						item += "<div><a href='#popup"+value.propertyGalleryID+"' data-rel='popup' data-position-to='window' data-transition='fade'><img u='image' src='"+site_url+"/"+value.imageLink+"'/></a></div>";
+						popupItem += "<div data-role='popup' id='popup"+value.propertyGalleryID+"' data-overlay-theme='a' data-theme='b' data-corners='false'>"+
+									"<a href='#' data-rel='back' class='ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right'>Close</a>"+
+									"<img class='popphoto' src='"+site_url+"/"+value.imageLink+"' style='max-height:512px;' alt='' data-elem='pinchzoomer''></div>";
+						
 					});
 					$("#slides_container").html(item, function(){
-						$(".li_slider1_container").trigger("create");
+						$(this).trigger("create");
+					});
+
+					$("#popup_container").html(popupItem, function(){
+						$(this).trigger("create");
 					});
 					loadSlider();
 					$("#ul_property_detail").append('<li data-role="list-divider">Property Information</li>'+
-						'<li id="detail-propertyType" class="li-property-detail"><strong>Type: </strong>House</li>'+
-						'<li id="detail-price" class="li-property-detail"><strong>Price: </strong>'+detailData.price+'</li>'+
-						'<li id="detail-refNumber" class="li-property-detail"><strong>Reference Number: </strong>'+detailData.refNumber+'</li>'+
-						'<li id="detail-propertyArea" class="li-property-detail"><strong>Property Area: </strong>'+detailData.propertyArea+' '+detailData.areaUnit+'</li>'+
-						'<li id="detail-bedroom" class="li-property-detail"><strong>Bedrooms: </strong>'+detailData.bedrooms+'</li>'+
-						'<li id="detail-livingroom" class="li-property-detail"><strong>Living Rooms: </strong>'+detailData.livingroom+'</li>'+
-						'<li id="detail-bathroom" class="li-property-detail"><strong>Bathrooms: </strong>'+detailData.bathroom+'</li>'+
-						'<li id="detail-floor" class="li-property-detail"><strong>Total Floors: </strong>'+detailData.floor+'</li>'+
-						'<li id="detail-furnished" class="li-property-detail"><strong>Furnished: </strong>'+detailData.furnished+'</li>'+
+						'<li class="li-property-detail"><strong>Type: </strong>House</li>'+
+						'<li class="li-property-detail"><strong>Price: </strong>'+detailData.price+'</li>'+
+						'<li class="li-property-detail"><strong>Reference Number: </strong>'+detailData.refNumber+'</li>'+
+						'<li class="li-property-detail"><strong>Property Area: </strong>'+detailData.propertyArea+' '+detailData.areaUnit+'</li>'+
+						'<li class="li-property-detail"><div class="ui-grid-b"><div class="ui-block-a"><strong>Bedrooms: </strong>'+detailData.bedrooms+'</div><div class="ui-block-b"><strong>Living Rooms: </strong>'+detailData.livingroom+'</div><div class="ui-block-c"><strong>Bathrooms: </strong>'+detailData.bathroom+'</div></div></li>'+
+						'<li class="li-property-detail"><div class="ui-grid-a"><div class="ui-block-a"><strong>Total Floors: </strong>'+detailData.floor+'</div><div class="ui-block-b"><strong>Furnished: </strong>'+detailData.furnished+'</div></div></li>'+
 						'<li data-role="list-divider">Property Description</li>'+
-						'<li id="detail-propertyDescription" class="li-property-detail">'+detailData.propertyDesc+'</li>'+
+						'<li class="li-property-detail txt-wrap">'+detailData.propertyDesc+'</li>'+
 						'<li data-role="list-divider">Contact Information</li>'+
-						'<li id="detail-contName" class="li-property-detail"><strong>Contact Person: </strong>'+detailData.name+'</li>'+
-						'<li id="detail-contMobile" class="li-property-detail"><strong>Mobile Number: </strong>'+detailData.contact+'</li>'+
-						'<li id="detail-contAddress" class="li-property-detail"><strong>Address: </strong>'+detailData.address+'</li>'+
-						'<li id="detail-contEmail" class="li-property-detail"><strong>Email: </strong>'+detailData.email+'</li>');
+						'<li class="li-property-detail"><strong>Contact Person: </strong>'+detailData.name+'</li>'+
+						'<li class="li-property-detail"><strong>Mobile Number: </strong>'+detailData.contact+'</li>'+
+						'<li class="li-property-detail"><strong>Address: </strong>'+detailData.address+'</li>'+
+						'<li class="li-property-detail"><strong>Email: </strong>'+detailData.email+'</li>');
+					loadPropertyFeedback(detailData.propertyID);
+					$("#feedback_post_frm #name").val(localStorage.getItem('name'));
+					$("#feedback_post_frm #email").val(localStorage.getItem('email'));
+					$("#feedback_post_frm #property_id").val(detailData.propertyID);
 					$("body #property_detail_page_inner").trigger("create");
-										
-					/*$("#detail-refNumber").html("<strong>Reference Number: </strong>"+detailData.refNumber);
-					$("#detail-price").html("<strong>Price: </strong>"+detailData.price);
-					$("#detail-propertyArea").html("<strong>Property Area: </strong>"+detailData.propertyArea+" "+detailData.areaUnit);
-					$("#detail-bedroom").html("<strong>Bedrooms: </strong>"+detailData.bedrooms);
-					$("#detail-livingroom").html("<strong>Living Rooms: </strong>"+detailData.livingroom);
-					$("#detail-bathroom").html("<strong>Bathrooms: </strong>"+detailData.bathroom);
-					$("#detail-floor").html("<strong>Total Floors: </strong>"+detailData.floor);
-					$("#detail-furnished").html("<strong>Furnished: </strong>"+detailData.furnished);
-					$("#detail-propertyDescription").html(detailData.propertyDesc);
-					$("#detail-contName").html("<strong>Contact Person: </strong>"+detailData.name);
-					$("#detail-contMobile").html("<strong>Mobile Number: </strong>"+detailData.contact);
-					$("#detail-contAddress").html("<strong>Address: </strong>"+detailData.address);
-					$("#detail-contEmail").html("<strong>Email: </strong>"+detailData.email);
-					$("body #property_detail_page_inner").trigger("create");*/
 				});
 				break;
 			case '2':
 				$("#property_detail_page").load("property_detail.html", function(){
 					var item  = "";
+					var popupItem = "";
 					$.each(galleryData, function(index, value){
-						item += "<div><img u='image' src='"+site_url+"/"+value.imageLink+"'/></div>";
+						item += "<div><a href='#popup"+value.propertyGalleryID+"' data-rel='popup' data-position-to='window' data-transition='fade'><img u='image' src='"+site_url+"/"+value.imageLink+"'/></a></div>";
+						popupItem += "<div data-role='popup' id='popup"+value.propertyGalleryID+"' data-overlay-theme='a' data-theme='b' data-corners='false'>"+
+									"<a href='#' data-rel='back' class='ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right'>Close</a>"+
+									"<img class='popphoto' src='"+site_url+"/"+value.imageLink+"' style='max-height:512px;' alt=''></div>";
+						
 					});
 					$("#slides_container").html(item, function(){
 						$(this).trigger("create");
 					});
+
+					$("#popup_container").html(popupItem, function(){
+						$(this).trigger("create");
+					});
 					loadSlider();
 					$("#ul_property_detail").append('<li data-role="list-divider">Property Information</li>'+
-						'<li id="detail-propertyType"><strong>Type: </strong>Apartment</li>'+
-						'<li id="detail-price"><strong>Price: </strong>'+detailData.price+'</li>'+
-						'<li id="detail-refNumber"><strong>Reference Number: </strong>'+detailData.refNumber+'</li>'+
-						'<li id="detail-propertyArea"><strong>Property Area: </strong>'+detailData.propertyArea+' '+detailData.areaUnit+'</li>'+
-						'<li id="detail-bedroom"><strong>Bedrooms: </strong>'+detailData.bedrooms+'</li>'+
-						'<li id="detail-livingroom"><strong>Living Rooms: </strong>'+detailData.livingroom+'</li>'+
-						'<li id="detail-bathroom"><strong>Bathrooms: </strong>'+detailData.bathroom+'</li>'+
-						'<li id="detail-floor"><strong>Total Floors: </strong>'+detailData.floor+'</li>'+
-						'<li id="detail-furnished"><strong>Furnished: </strong>'+detailData.furnished+'</li>'+
+						'<li class="li-property-detail"><strong>Type: </strong>Apartment</li>'+
+						'<li class="li-property-detail"><strong>Price: </strong>'+detailData.price+'</li>'+
+						'<li class="li-property-detail"><strong>Reference Number: </strong>'+detailData.refNumber+'</li>'+
+						'<li class="li-property-detail"><strong>Property Area: </strong>'+detailData.propertyArea+' '+detailData.areaUnit+'</li>'+
+						'<li class="li-property-detail"><div class="ui-grid-b"><div class="ui-block-a"><strong>Bedrooms: </strong>'+detailData.bedrooms+'</div><div class="ui-block-b"><strong>Living Rooms: </strong>'+detailData.livingroom+'</div><div class="ui-block-c"><strong>Bathrooms: </strong>'+detailData.bathroom+'</div></div></li>'+
+						'<li class="li-property-detail"><div class="ui-grid-a"><div class="ui-block-a"><strong>Total Floors: </strong>'+detailData.floor+'</div><div class="ui-block-b"><strong>Furnished: </strong>'+detailData.furnished+'</div></div></li>'+
 						'<li data-role="list-divider">Property Description</li>'+
-						'<li id="detail-propertyDescription">'+detailData.propertyDesc+'</li>'+
+						'<li class="li-property-detail txt-wrap">'+detailData.propertyDesc+'</li>'+
 						'<li data-role="list-divider">Contact Information</li>'+
-						'<li id="detail-contName"><strong>Contact Person: </strong>'+detailData.name+'</li>'+
-						'<li id="detail-contMobile"><strong>Mobile Number: </strong>'+detailData.contact+'</li>'+
-						'<li id="detail-contAddress"><strong>Address: </strong>'+detailData.address+'</li>'+
-						'<li id="detail-contEmail"><strong>Email: </strong>'+detailData.email+'</li>');
+						'<li class="li-property-detail"><strong>Contact Person: </strong>'+detailData.name+'</li>'+
+						'<li class="li-property-detail"><strong>Mobile Number: </strong>'+detailData.contact+'</li>'+
+						'<li class="li-property-detail"><strong>Address: </strong>'+detailData.address+'</li>'+
+						'<li class="li-property-detail"><strong>Email: </strong>'+detailData.email+'</li>');
+					loadPropertyFeedback(detailData.propertyID);
+					$("#feedback_post_frm #name").val(localStorage.getItem('name'));
+					$("#feedback_post_frm #email").val(localStorage.getItem('email'));
+					$("#feedback_post_frm #property_id").val(detailData.propertyID);
 					$("body #property_detail_page_inner").trigger("create");
 				});
 				break;
 			case '3':
 				$("#property_detail_page").load("property_detail.html", function(){
 					var item  = "";
+					var popupItem = "";
 					$.each(galleryData, function(index, value){
-						item += "<div><img u='image' src='"+site_url+"/"+value.imageLink+"'/></div>";
+						item += "<div><a href='#popup"+value.propertyGalleryID+"' data-rel='popup' data-position-to='window' data-transition='fade'><img u='image' src='"+site_url+"/"+value.imageLink+"'/></a></div>";
+						popupItem += "<div data-role='popup' id='popup"+value.propertyGalleryID+"' data-overlay-theme='a' data-theme='b' data-corners='false'>"+
+									"<a href='#' data-rel='back' class='ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right'>Close</a>"+
+									"<img class='popphoto' src='"+site_url+"/"+value.imageLink+"' style='max-height:512px;' alt=''></div>";
+						
 					});
 					$("#slides_container").html(item, function(){
 						$(this).trigger("create");
 					});
+
+					$("#popup_container").html(popupItem, function(){
+						$(this).trigger("create");
+					});
 					loadSlider();
 					$("#ul_property_detail").append('<li data-role="list-divider">Property Information</li>'+
-						'<li id="detail-propertyType"><strong>Type: </strong>Apartment</li>'+
-						'<li id="detail-price"><strong>Price: </strong>'+detailData.price+'</li>'+
-						'<li id="detail-refNumber"><strong>Reference Number: </strong>'+detailData.refNumber+'</li>'+
-						'<li id="detail-propertyArea"><strong>Property Area: </strong>'+detailData.propertyArea+' '+detailData.areaUnit+'</li>'+
-						'<li id="detail-roadAccess"><strong>Road Access: </strong>'+detailData.roadAccess+'</li>'+
+						'<li class="li-property-detail"><strong>Type: </strong>Apartment</li>'+
+						'<li class="li-property-detail"><strong>Price: </strong>'+detailData.price+'</li>'+
+						'<li class="li-property-detail"><strong>Reference Number: </strong>'+detailData.refNumber+'</li>'+
+						'<li class="li-property-detail"><strong>Property Area: </strong>'+detailData.propertyArea+' '+detailData.areaUnit+'</li>'+
+						'<li class="li-property-detail"><strong>Road Access: </strong>'+detailData.roadAccess+'</li>'+
 						'<li data-role="list-divider">Property Description</li>'+
-						'<li id="detail-propertyDescription">'+detailData.propertyDesc+'</li>'+
+						'<li class="li-property-detail txt-wrap">'+detailData.propertyDesc+'</li>'+
 						'<li data-role="list-divider">Contact Information</li>'+
-						'<li id="detail-contName"><strong>Contact Person: </strong>'+detailData.name+'</li>'+
-						'<li id="detail-contMobile"><strong>Mobile Number: </strong>'+detailData.contact+'</li>'+
-						'<li id="detail-contAddress"><strong>Address: </strong>'+detailData.address+'</li>'+
-						'<li id="detail-contEmail"><strong>Email: </strong>'+detailData.email+'</li>');
+						'<li class="li-property-detail"><strong>Contact Person: </strong>'+detailData.name+'</li>'+
+						'<li class="li-property-detail"><strong>Mobile Number: </strong>'+detailData.contact+'</li>'+
+						'<li class="li-property-detail"><strong>Address: </strong>'+detailData.address+'</li>'+
+						'<li class="li-property-detail"><strong>Email: </strong>'+detailData.email+'</li>');
+					loadPropertyFeedback(detailData.propertyID);
+					$("#feedback_post_frm #name").val(localStorage.getItem('name'));
+					$("#feedback_post_frm #email").val(localStorage.getItem('email'));
+					$("#feedback_post_frm #property_id").val(detailData.propertyID);
 					$("body #property_detail_page_inner").trigger("create");
 				});
 				break;
 			case '4':
 				$("#property_detail_page").load("property_detail.html", function(){
 					var item  = "";
+					var popupItem = "";
 					$.each(galleryData, function(index, value){
-						item += "<div><img u='image' src='"+site_url+"/"+value.imageLink+"'/></div>";
+						item += "<div><a href='#popup"+value.propertyGalleryID+"' data-rel='popup' data-position-to='window' data-transition='fade'><img u='image' src='"+site_url+"/"+value.imageLink+"'/></a></div>";
+						popupItem += "<div data-role='popup' id='popup"+value.propertyGalleryID+"' data-overlay-theme='a' data-theme='b' data-corners='false'>"+
+									"<a href='#' data-rel='back' class='ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right'>Close</a>"+
+									"<img class='popphoto' src='"+site_url+"/"+value.imageLink+"' style='max-height:512px;' alt=''></div>";
+						
 					});
 					$("#slides_container").html(item, function(){
+						$(this).trigger("create");
+					});
+
+					$("#popup_container").html(popupItem, function(){
 						$(this).trigger("create");
 					});
 					loadSlider();
 					$("#ul_property_detail").append('<li data-role="list-divider">Property Information</li>'+
 						'<li id="detail-propertyType"><strong>Type: </strong>Apartment</li>'+
-						'<li id="detail-price"><strong>Price: </strong>'+detailData.price+'</li>'+
-						'<li id="detail-refNumber"><strong>Reference Number: </strong>'+detailData.refNumber+'</li>'+
-						'<li id="detail-propertyArea"><strong>Property Area: </strong>'+detailData.propertyArea+' '+detailData.areaUnit+'</li>'+
-						'<li id="detail-floor"><strong>Total Floors: </strong>'+detailData.floor+'</li>'+
-						'<li id="detail-roadAccess"><strong>Road Access: </strong>'+detailData.roadAccess+'</li>'+
+						'<li class="li-property-detail"><strong>Price: </strong>'+detailData.price+'</li>'+
+						'<li class="li-property-detail"><strong>Reference Number: </strong>'+detailData.refNumber+'</li>'+
+						'<li class="li-property-detail"><strong>Property Area: </strong>'+detailData.propertyArea+' '+detailData.areaUnit+'</li>'+
+						'<li class="li-property-detail"><strong>Total Floors: </strong>'+detailData.floor+'</li>'+
+						'<li class="li-property-detail"><strong>Road Access: </strong>'+detailData.roadAccess+'</li>'+
 						'<li data-role="list-divider">Property Description</li>'+
-						'<li id="detail-propertyDescription">'+detailData.propertyDesc+'</li>'+
+						'<li class="li-property-detail txt-wrap">'+detailData.propertyDesc+'</li>'+
 						'<li data-role="list-divider">Contact Information</li>'+
-						'<li id="detail-contName"><strong>Contact Person: </strong>'+detailData.name+'</li>'+
-						'<li id="detail-contMobile"><strong>Mobile Number: </strong>'+detailData.contact+'</li>'+
-						'<li id="detail-contAddress"><strong>Address: </strong>'+detailData.address+'</li>'+
-						'<li id="detail-contEmail"><strong>Email: </strong>'+detailData.email+'</li>');
+						'<li class="li-property-detail"><strong>Contact Person: </strong>'+detailData.name+'</li>'+
+						'<li class="li-property-detail"><strong>Mobile Number: </strong>'+detailData.contact+'</li>'+
+						'<li class="li-property-detail"><strong>Address: </strong>'+detailData.address+'</li>'+
+						'<li class="li-property-detail"><strong>Email: </strong>'+detailData.email+'</li>');
+					loadPropertyFeedback(detailData.propertyID);
+					$("#feedback_post_frm #name").val(localStorage.getItem('name'));
+					$("#feedback_post_frm #email").val(localStorage.getItem('email'));
+					$("#feedback_post_frm #property_id").val(detailData.propertyID);
 					$("body #property_detail_page_inner").trigger("create");
 				});
 				break;
 			case '5':
 				$("#property_detail_page").load("property_detail.html", function(){
 					var item  = "";
+					var popupItem = "";
 					$.each(galleryData, function(index, value){
-						item += "<div><img u='image' src='"+site_url+"/"+value.imageLink+"'/></div>";
+						item += "<div><a href='#popup"+value.propertyGalleryID+"' data-rel='popup' data-position-to='window' data-transition='fade'><img u='image' src='"+site_url+"/"+value.imageLink+"'/></a></div>";
+						popupItem += "<div data-role='popup' id='popup"+value.propertyGalleryID+"' data-overlay-theme='a' data-theme='b' data-corners='false'>"+
+									"<a href='#' data-rel='back' class='ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right'>Close</a>"+
+									"<img class='popphoto' src='"+site_url+"/"+value.imageLink+"' style='max-height:512px;' alt=''></div>";
+						
 					});
 					$("#slides_container").html(item, function(){
 						$(this).trigger("create");
 					});
+
+					$("#popup_container").html(popupItem, function(){
+						$(this).trigger("create");
+					});
 					loadSlider();
 					$("#ul_property_detail").append('<li data-role="list-divider">Property Information</li>'+
-						'<li id="detail-propertyType"><strong>Type: </strong>Apartment</li>'+
-						'<li id="detail-price"><strong>Price: </strong>'+detailData.price+'</li>'+
-						'<li id="detail-refNumber"><strong>Reference Number: </strong>'+detailData.refNumber+'</li>'+
-						'<li id="detail-propertyArea"><strong>Property Area: </strong>'+detailData.propertyArea+' '+detailData.areaUnit+'</li>'+
-						'<li id="detail-bedroom"><strong>Bedrooms: </strong>'+detailData.bedrooms+'</li>'+
-						'<li id="detail-livingroom"><strong>Living Rooms: </strong>'+detailData.livingroom+'</li>'+
-						'<li id="detail-bathroom"><strong>Bathrooms: </strong>'+detailData.bathroom+'</li>'+
-						'<li id="detail-floor"><strong>Total Floors: </strong>'+detailData.floor+'</li>'+
-						'<li id="detail-furnished"><strong>Furnished: </strong>'+detailData.furnished+'</li>'+
+						'<li class="li-property-detail"><strong>Type: </strong>Service Apartment</li>'+
+						'<li class="li-property-detail"><strong>Price: </strong>'+detailData.price+'</li>'+
+						'<li class="li-property-detail"><strong>Reference Number: </strong>'+detailData.refNumber+'</li>'+
+						'<li class="li-property-detail"><strong>Property Area: </strong>'+detailData.propertyArea+' '+detailData.areaUnit+'</li>'+
+						'<li class="li-property-detail"><div class="ui-grid-b"><div class="ui-block-a"><strong>Bedrooms: </strong>'+detailData.bedrooms+'</div><div class="ui-block-b"><strong>Living Rooms: </strong>'+detailData.livingroom+'</div><div class="ui-block-c"><strong>Bathrooms: </strong>'+detailData.bathroom+'</div></div></li>'+
+						'<li class="li-property-detail"><div class="ui-grid-a"><div class="ui-block-a"><strong>Total Floors: </strong>'+detailData.floor+'</div><div class="ui-block-b"><strong>Furnished: </strong>'+detailData.furnished+'</div></div></li>'+
 						'<li data-role="list-divider">Property Description</li>'+
-						'<li id="detail-propertyDescription">'+detailData.propertyDesc+'</li>'+
+						'<li class="li-property-detail txt-wrap">'+detailData.propertyDesc+'</li>'+
 						'<li data-role="list-divider">Contact Information</li>'+
-						'<li id="detail-contName"><strong>Contact Person: </strong>'+detailData.name+'</li>'+
-						'<li id="detail-contMobile"><strong>Mobile Number: </strong>'+detailData.contact+'</li>'+
-						'<li id="detail-contAddress"><strong>Address: </strong>'+detailData.address+'</li>'+
-						'<li id="detail-contEmail"><strong>Email: </strong>'+detailData.email+'</li>');
+						'<li class="li-property-detail"><strong>Contact Person: </strong>'+detailData.name+'</li>'+
+						'<li class="li-property-detail"><strong>Mobile Number: </strong>'+detailData.contact+'</li>'+
+						'<li class="li-property-detail"><strong>Address: </strong>'+detailData.address+'</li>'+
+						'<li class="li-property-detail"><strong>Email: </strong>'+detailData.email+'</li>');
+					loadPropertyFeedback(detailData.propertyID);
+					$("#feedback_post_frm #name").val(localStorage.getItem('name'));
+					$("#feedback_post_frm #email").val(localStorage.getItem('email'));
+					$("#feedback_post_frm #property_id").val(detailData.propertyID);
 					$("body #property_detail_page_inner").trigger("create");
 				});
 				break;
@@ -941,57 +998,39 @@ function onDeviceReady () {
 		}
 	}
 	
-	/*function loadSlider(){
-		var options = {
-			$AutoPlay: true,
-			$AutoPlaySteps: 4,
-			$AutoPlayInterval: 4000,
-			$PauseOnHover: 1,
-			$ArrowKeyNavigation: true,
-			$SlideDuration: 160,    
-			$MinDragOffsetToSlide: 20, 
-			$SlideWidth: 200,
-			//$SlideHeight: 150,
-			$SlideSpacing: 3,
-			$DisplayPieces: 4,
-			$ParkingPosition: 0,
-			$UISearchMode: 1,
-			$PlayOrientation: 1,
-			$DragOrientation: 1,
-			$BulletNavigatorOptions: {
-				$Class: $JssorBulletNavigator$,
-				$ChanceToShow: 2,
-				$AutoCenter: 0,
-				$Steps: 1,
-				$Lanes: 1,
-				$SpacingX: 0, 
-				$SpacingY: 0,
-				$Orientation: 1 
+	function loadPropertyFeedback(id){
+		var url = site_url+"/pservice/index.php?method=feedback-property";
+		var postData = "id="+id;
+		$.ajax({
+			url : url,
+			type: "POST",
+			data: postData,
+			success:function(data, textStatus, jqXHR)
+			{
+				var data = data.response;
+				if(data == null || jQuery.isEmptyObject(data)){
+					var feedbackItem  = "<li></li>"+
+										"<li data-role='list-divider'>Feedbacks</li>"+
+										"<li class='ui-li-has-thumb'>No Feedbacks available.</li>";
+				}else{
+					var feedbackItem  = "<li></li>"+
+										"<li data-role='list-divider'>Feedbacks</li>";
+					$.each(data, function(index, value){
+						feedbackItem += "<li class='ui-li-has-thumb'>"+
+										value.message+
+						                "<p>-Posted by "+value.name+" on "+value.datePosted+"</p></li>";
+					});
+				}
+				$("#propertyFeedbackList").html(feedbackItem);
+				$("#propertyFeedbackList").listview("refresh");
 			},
-			$ArrowNavigatorOptions: {
-				$Class: $JssorArrowNavigator$,
-				$ChanceToShow: 1,
-				$AutoCenter: 2,
-				$Steps: 4
+			error: function(jqXHR, textStatus, errorThrown)
+			{
+				//if fails 
 			}
-		};
-
-		var jssor_slider1 = new $JssorSlider$("slider1_container", options);
-		
-		function ScaleSlider() {
-			var bodyWidth = document.body.clientWidth;
-			if (bodyWidth)
-				jssor_slider1.$ScaleWidth(Math.min(bodyWidth, 809));
-			else
-				window.setTimeout(ScaleSlider, 30);
-		}
-
-		ScaleSlider();
-
-		if (!navigator.userAgent.match(/(iPhone|iPod|iPad|BlackBerry|IEMobile)/)) {
-			$(window).bind('resize', ScaleSlider);
-		}
-	}*/
+		});
+	}
+	
 	function loadSlider(){
 		var options = {
 			$FillMode: 1,                                       //[Optional] The way to fill image in slide, 0 stretch, 1 contain (keep aspect ratio and put all inside slide), 2 cover (keep aspect ratio and cover whole slide), 4 actual size, 5 contain for large image, actual size for small image, default value is 0
@@ -1078,14 +1117,37 @@ function onDeviceReady () {
 			});
 		}
 	});
-	//end of part10
 	
+	//feedbacks
+	$("#feedback_post_frm").on("submit", function(e){
+		e.preventDefault();
+		var url = site_url+"/pservice/index.php?method=feedback-add";
+		var postData = $(this).serialize()+"&name="+localStorage.getItem('name')+"&email="+localStorage.getItem('email');
+		$.ajax({
+			url: url,
+			type: "POST",
+			data: postData,
+			success:function(data, textStatus, jqXHR)
+			{
+				if(data.response == 'success'){
+					alert('Feedback posted successfully');
+					$("#feedback_post_frm").trigger("reset");
+					loadPropertyFeedback(data.propertyID);
+					window.history.back();
+				}else{
+					alert(data.response);
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown)
+			{
+				//if fails     
+			}
+		});
+	});
+//end of part10
 	
-
-}//main function terminator
-
 //developer tab
-	function loadDeveloperProperty(){
+	$(".developer").on("click", function(){
 		$.mobile.loading( 'show', {
 			text: 'Loading...',
 			textVisible: true,
@@ -1098,18 +1160,42 @@ function onDeviceReady () {
 			type: "GET",
 			success:function(data, textStatus, jqXHR)
 			{
-				var listdata = data;
+				var listdata = data.property;
 				var item  = "<li data-role='list-divider'>Property Available</li>";
 				$.each( listdata, function( index, value ){
-				item += "<li class='ui-li-has-thumb'><a href='#property_detail_page' class='ui-btn li-property-list' id='"+value.propertyID+"'>"+
-							"<img src='"+site_url+'/'+value.featuredImage+"'>"+
-							"<h2>"+value.bedrooms+" Bedroom</h2>"+
-							"<p>"+value.propertyArea+" "+value.areaUnit+"</p>"+
-							"<p class='ui-li-aside'><strong>Rs."+value.price+"</strong><br/><strong>Contact: "+value.name+"</strong><br/><strong>Mob: "+value.contact+"</strong></p></a></li>";
-				
+					item += "<li class='ui-li-has-thumb'><a href='#property_detail_page' class='ui-btn li-property-list' id='"+value.propertyID+"'>"+
+			                "<img src='"+site_url+'/'+value.featuredImage+"'>"+
+			                "<h2>"+value.bedrooms+" Bedroom</h2>"+
+			                "<p>"+value.propertyArea+" "+value.areaUnit+"</p></a>"+
+			                "<p class='ui-li-aside'><strong>Rs."+value.price+"</strong><br/><strong>Contact:</strong><br/><strong>"+value.name+"</strong>";
+					if(localStorage.getItem('logged_in') == 'true'){
+						item += "<br/><strong><i class='lIcon fa fa-phone'></i><a href='tel:"+value.contact+"'>"+value.contact+"</a></strong></p></li>";
+					}else{
+						item += "<br/><strong><a href='index.html'>Call Me</a></strong></p></li>";
+					}
 				});
+				
+				var sliderdata = data.slider_img;
+				var sliderItem = "";
+				var popupItem = "";
+				$.each(sliderdata, function(index, value){
+					sliderItem += "<div class='item'><a href='"+site_url+value.imageLink+"' class='swipebox'><img src='"+site_url+value.imageLink+"' alt=''></a></div>";
+				});
+				
+				$( '.swipebox' ).swipebox();
+				
+				$("#developer_slider").html("");
+				$("#developer_slider").html(sliderItem, function(){
+					$(this).trigger("create");
+				});
+				
+				$("#developer_slider").owlCarousel({
+				  navigation : false, // Show next and prev buttons
+				  slideSpeed : 300,
+				  paginationSpeed : 400,
+				  singleItem:true
+  				});
 				$("#developerPropertyList").html(item);
-				$("#developerPropertyList").listview("refresh");
 				$.mobile.loading('hide');
 			},
 			error: function(jqXHR, textStatus, errorThrown)
@@ -1117,4 +1203,8 @@ function onDeviceReady () {
 				//if fails 
 			}
 		});
-	}
+	});
+//end of developer tab
+	
+
+}//main function terminator
