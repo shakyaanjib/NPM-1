@@ -21,6 +21,9 @@
             // Setting default page transition to slide
             $.mobile.defaultPageTransition = 'slide';
  
+ 			//check for login and redirect to home
+ 			if(localStorage.getItem('logged_in') == 'true')
+ 				window.location.href = 'home.html';
         });
 		</script>
         <script src="js/jquery.mobile-1.4.2.min.js"></script>
@@ -44,7 +47,7 @@
 						<ul data-role="listview" data-inset="true">
 							<li data-role="fieldcontain">
 								<label for="email">Email</label>
-								<input type="text" name="email" id="email" placeholder="Email" required>
+								<input type="email" name="email" id="email" placeholder="Email" required>
 							</li>
 							<li data-role="fieldcontain">
 								<label for="password">Password</label>
@@ -84,7 +87,7 @@
 				<ul data-role="listview" data-inset="true">
 					<li data-role="fieldcontain">
 						<label for="email">Email</label>
-						<input type="text" name="email" id="email" placeholder="Email" required>
+						<input type="email" name="email" id="email" placeholder="Email" required>
 					</li>
 					<li data-role="fieldcontain">
 						<button type="submit" class="ui-btn frm1_btn" id="forget_pass_btn">Submit</button>
@@ -120,7 +123,7 @@
 							</li>
 							<li data-role="fieldcontain">
 								<label for="contact">Mobile</label>
-								<input type="text" name="contact" id="contact" placeholder="Your Mobile No" required>
+								<input onfocus="this.type='number';" name="contact" id="contact" placeholder="Your Mobile No" required>
 							</li>
 							<li data-role="fieldcontain">
 								<label for="user_type">User Type</label>

@@ -56,7 +56,6 @@
             <li data-icon='false'><a href="#"><i class='lIcon fa fa-fire'></i>Property for Sell</a></li>
             <li data-icon='false'><a href="#"><i class='lIcon fa fa-bullhorn'></i>Best Deals</a></li>
             <li data-icon='false'><a href="#mortgage_calc_page"><i class='lIcon fa fa-calculator'></i>Mortgage Calculator</a></li>
-            <li data-icon='false'><a href="#feedback_page" id="load_feedback"><i class='lIcon fa fa-phone'></i>Feedbacks</a></li>
         </ul>
     </div>  
         <div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme='b'>
@@ -101,22 +100,48 @@
 							</div>
 						</li>
 						<li data-role="fieldcontain">
-							<fieldset id="propertyCategory" data-role="controlgroup" data-type="horizontal" class="property_type">
+							<fieldset id="propertyCategory" class="property_type">
 								<legend>Property Type</legend>
-									<input name="buypcategory[]" id="1" value="1" type="checkbox">
-									<label for="1">House</label>
-									<input name="buypcategory[]" id="2" value="2" type="checkbox">
-									<label for="2">Apartment</label>
-									<input name="buypcategory[]" id="3" value="3" type="checkbox">
-									<label for="3">Land</label>
-									<input name="buypcategory[]" id="4" value="4" type="checkbox">
-									<label for="4">Farm House</label>
-									<input name="buypcategory[]" id="5" value="5" type="checkbox">
-									<label for="5">Service Apartment</label>
+								<nav>
+									<ul>
+										<li><input name="buypcategory[]" id="1" value="1" type="checkbox"><label for="1">House</label></li>
+										<li><input name="buypcategory[]" id="2" value="2" type="checkbox"><label for="2">Apartment</label></li>
+										<li><input name="buypcategory[]" id="3" value="3" type="checkbox"><label for="3">Land</label></li>
+										<li><input name="buypcategory[]" id="4" value="4" type="checkbox"><label for="4">Farm&nbsp;House</label></li>
+										<li><input name="buypcategory[]" id="5" value="5" type="checkbox"><label for="5">Service&nbsp;Apartment</label></li>
+									</ul>
+								</nav>
+							</fieldset>
+						</li>
+						<li data-role="fieldcontain" id="buyBedroom">
+							<fieldset id="bedroom" class="property_type">
+								<legend>Bedroom</legend>
+								<nav>
+									<ul>
+										<li><input type="radio" name="bedroom" id="1" value="1"><label for="1">1</label></li>
+										<li><input type="radio" name="bedroom" id="2" value="2"><label for="2">2</label></li>
+										<li><input type="radio" name="bedroom" id="3" value="3"><label for="3">3</label></li>
+										<li><input type="radio" name="bedroom" id="4" value="4"><label for="4">4</label></li>
+										<li><input type="radio" name="bedroom" id="5" value="5"><label for="5">5</label></li>
+										<li><input type="radio" name="bedroom" id="5+" value="5+"><label for="5+">5+</label></li>
+									</ul>
+								</nav>
 							</fieldset>
 						</li>
 						<li data-role="fieldcontain">
-						<button type="submit" class="ui-btn frm1_btn" id="frm1_btn">Search Property</button>
+							<fieldset id="posted_by" class="property_type">
+								<legend>Posted By</legend>
+								<nav>
+									<ul>
+										<li><input name="posted_by[]" id="pbclient" value="2" type="checkbox"><label for="pbclient">Client</label></li>
+										<li><input name="posted_by[]" id="pbbroker" value="3" type="checkbox"><label for="pbbroker">Broker</label></li>
+										<li><input name="posted_by[]" id="pbdeveloper" value="4" type="checkbox"><label for="pbdeveloper">Developer</label></li>
+									</ul>
+								</nav>
+							</fieldset>
+						</li>
+						<li data-role="fieldcontain">
+							<button type="submit" class="ui-btn frm1_btn" id="frm1_btn">Search Property</button>
 						</li>
 					</ul>
 				</form>	
@@ -149,22 +174,48 @@
 							</div>
 						</li>
 						<li data-role="fieldcontain">
-							<fieldset id="propertyCategory" data-role="controlgroup" data-type="horizontal" data-mini="true" class="property_type">
+							<fieldset id="propertyCategory" class="property_type">
 								<legend>Property Type</legend>
-									<input name="rentpcategory[]" id="1" value="1" type="checkbox">
-									<label for="1">House</label>
-									<input name="rentpcategory[]" id="2" value="2" type="checkbox">
-									<label for="2">Apartment</label>
-									<input name="rentpcategory[]" id="3" value="3" type="checkbox">
-									<label for="3">Land</label>
-									<input name="rentpcategory[]" id="4" value="4" type="checkbox">
-									<label for="4">Farm House</label>
-									<input name="rentpcategory[]" id="5" value="5" type="checkbox">
-									<label for="5">Service Apartment</label>
+								<nav>
+									<ul>
+										<li><input name="rentpcategory[]" id="1" value="1" type="checkbox"><label for="1">House</label></li>
+										<li><input name="rentpcategory[]" id="2" value="2" type="checkbox"><label for="2">Apartment</label></li>
+										<li><input name="rentpcategory[]" id="3" value="3" type="checkbox"><label for="3">Land</label></li>
+										<li><input name="rentpcategory[]" id="4" value="4" type="checkbox"><label for="4">Farm&nbsp;House</label></li>
+										<li><input name="rentpcategory[]" id="5" value="5" type="checkbox"><label for="5">Service&nbsp;Apartment</label></li>
+									</ul>
+								</nav>
+							</fieldset>
+						</li>
+						<li data-role="fieldcontain" id="rentBedroom">
+							<fieldset id="bedroom" class="property_type">
+								<legend>Bedroom</legend>
+								<nav>
+									<ul>
+										<li><input type="radio" name="bedroom" id="1" value="1"><label for="1">1</label></li>
+										<li><input type="radio" name="bedroom" id="2" value="2"><label for="2">2</label></li>
+										<li><input type="radio" name="bedroom" id="3" value="3"><label for="3">3</label></li>
+										<li><input type="radio" name="bedroom" id="4" value="4"><label for="4">4</label></li>
+										<li><input type="radio" name="bedroom" id="5" value="5"><label for="5">5</label></li>
+										<li><input type="radio" name="bedroom" id="5+" value="5+"><label for="5+">5+</label></li>
+									</ul>
+								</nav>
 							</fieldset>
 						</li>
 						<li data-role="fieldcontain">
-						<button type="submit" class="ui-btn frm1_btn" id="rent_frm_btn">Search Property</button>
+							<fieldset id="posted_by" class="property_type">
+								<legend>Posted By</legend>
+								<nav>
+									<ul>
+										<li><input name="posted_by[]" id="pbclient" value="2" type="checkbox"><label for="pbclient">Client</label></li>
+										<li><input name="posted_by[]" id="pbbroker" value="3" type="checkbox"><label for="pbbroker">Broker</label></li>
+										<li><input name="posted_by[]" id="pbdeveloper" value="4" type="checkbox"><label for="pbdeveloper">Developer</label></li>
+									</ul>
+								</nav>
+							</fieldset>
+						</li>
+						<li data-role="fieldcontain">
+							<button type="submit" class="ui-btn frm1_btn" id="rent_frm_btn">Search Property</button>
 						</li>
 					</ul>
 				</form>

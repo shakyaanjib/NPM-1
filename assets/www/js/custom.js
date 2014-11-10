@@ -1,4 +1,4 @@
-var site_url = "http://192.168.1.6";
+var site_url = "http://192.168.1.2";
 //var site_url = "http://k9nepal.com/npmarket";
 var pictureSource;   // picture source
 var destinationType; // sets the format of returned value
@@ -15,7 +15,7 @@ function onBackKeyDown(e) {
     //navigator.notification.confirm("Are you sure you want to exit ?", onConfirm, "Confirmation", "Yes,No");
 	var sPath=window.location.pathname;
 	var sPage = sPath.substring(sPath.lastIndexOf('/') + 1);
-	if(sPage == "index.html"){
+	if(sPage == "home.html"){
 		e.preventDefault();
 		navigator.notification.confirm("Are you sure you want to exit ?", onConfirm, "Confirmation", "Yes,No");
 	}else{
@@ -38,7 +38,7 @@ function alertDismissed() {
 
 function onDeviceReady () {
 	if(localStorage.getItem('logged_in') == 'true'){
-		$("#welcome-msg").html("<a href='#'>Welcome "+localStorage.getItem('name')+"</a>");
+		$("#welcome-msg").html("<a href='#'><i class='lIcon fa fa-user'></i>"+localStorage.getItem('name')+"</a>");
 		$("<li data-icon='false' id='my_profile'><a href='#my_profile_page'><i class='lIcon fa fa-heart'></i>My Profile</a></li><li data-icon='false'><a href='#' id='logout'><i class='lIcon fa fa-power-off'></i>Logout</a></li>").insertAfter("#settings");
 		$("#main-menu").listview('refresh');
 	}
@@ -114,6 +114,14 @@ function onDeviceReady () {
 	
 //part2 - tabs search form submit function
 	//buy tab
+	$('input[name="buypcategory[]"]').click(function(){
+		if($('input[name="buypcategory[]"]:checked').length == 1 && $('input[name="buypcategory[]"]:checked').val() == 3){
+			$("#buyBedroom").css("display", "none");
+		}else{
+			$("#buyBedroom").css("display", "block");
+		}
+	});
+	
 	$("#sale_frm").on("submit",function(e){
 		e.preventDefault();
 			$.mobile.loading( 'show', {
@@ -132,8 +140,16 @@ function onDeviceReady () {
 					data : postData,
 					success:function(data, textStatus, jqXHR)
 					{
-						loadPropertyList(data);
-						$("#sale_frm").trigger("reset");
+						if(data.response == null || jQuery.isEmptyObject(data.response)){
+							$("#sale_frm").trigger("reset");
+							$("#propertylist").html("<li data-role='list-divider'>No property available</li>");
+							$("#propertylist").trigger("create");
+							setTimeout(function(){$.mobile.changePage('#searchlist_page', { transition: "slide"});},300);
+						}else{
+							$("#sale_frm").trigger("reset");
+							$("#propertylist").html("<li data-role='list-divider'>Properties available to buy</li>");
+							loadPropertyList(data.response);
+						}
 					},
 					error: function(jqXHR, textStatus, errorThrown)
 					{
@@ -141,12 +157,20 @@ function onDeviceReady () {
 					}
 				});
 		}else{
-			alert("Please select at least one category");
+			alert("Please select at least one property type");
 			$.mobile.loading('hide');
 		}
 	});
 	
 	//rent tab
+	$('input[name="rentpcategory[]"]').click(function(){
+		if($('input[name="rentpcategory[]"]:checked').length == 1 && $('input[name="rentpcategory[]"]:checked').val() == 3){
+			$("#rentBedroom").css("display", "none");
+		}else{
+			$("#rentBedroom").css("display", "block");
+		}
+	});
+	
 	$("#rent_frm").on("submit",function(e){
 		e.preventDefault();
 		$.mobile.loading( 'show', {
@@ -165,8 +189,16 @@ function onDeviceReady () {
 					data : postData,
 					success:function(data, textStatus, jqXHR)
 					{
-						loadPropertyList(data);
-						$("#rent_frm").trigger("reset");
+						if(data.response == null || jQuery.isEmptyObject(data.response)){
+							$("#rent_frm").trigger("reset");
+							$("#propertylist").html("<li data-role='list-divider'>No property available</li>");
+							$("#propertylist").trigger("create");
+							setTimeout(function(){$.mobile.changePage('#searchlist_page', { transition: "slide"});},300);
+						}else{
+							$("#rent_frm").trigger("reset");
+							$("#propertylist").html("<li data-role='list-divider'>Properties available for rent</li>");
+							loadPropertyList(data.response);
+						}
 					},
 					error: function(jqXHR, textStatus, errorThrown)
 					{
@@ -174,19 +206,20 @@ function onDeviceReady () {
 					}
 				});
 		}else{
-			alert("Please select at least one category");
+			alert("Please select at least one property type");
 			$.mobile.loading('hide');
 		}
 	});
 	
 	function loadPropertyList(data){
 		var listdata = data;
-		var item  = "<li data-role='list-divider'>Property Available</li>";
+		var item  = "";
 		$.each( listdata, function( index, value ){
 			item += "<li class='ui-li-has-thumb'><a href='#property_detail_page' class='ui-btn li-property-list' id='"+value.propertyID+"'>"+
 	                "<img src='"+site_url+'/'+value.featuredImage+"'>"+
 	                "<h2>"+value.bedrooms+" Bedroom</h2>"+
-	                "<p>"+value.propertyArea+" "+value.areaUnit+"</p></a>"+
+	                "<p>"+value.propertyArea+" "+value.areaUnit+"</p>"+
+                	"<p>Posted on: "+value.dateCreated.substring(0,10)+"</p></a>"+
 	                "<p class='ui-li-aside'><strong>Rs."+value.price+"</strong><br/><strong>Contact:</strong><br/><strong>"+value.name+"</strong>";
 			if(localStorage.getItem('logged_in') == 'true'){
 				item += "<br/><strong><i class='lIcon fa fa-phone'></i><a href='tel:"+value.contact+"'>"+value.contact+"</a></strong></p></li>";
@@ -194,7 +227,8 @@ function onDeviceReady () {
 				item += "<br/><strong><a href='index.html'>Call Me</a></strong></p></li>";
 			}
 		});
-		$("#propertylist").html(item);
+		$("#propertylist").append(item);
+		$("#propertylist").trigger("create");
 		setTimeout(function(){$.mobile.changePage('#searchlist_page', { transition: "slide"});},300);
 	}
 //end of part2
@@ -814,6 +848,7 @@ function onDeviceReady () {
 					});
 					loadSlider();
 					$("#ul_property_detail").append('<li data-role="list-divider">Property Information</li>'+
+						'<li class="li-property-detail"><strong>Posted on: </strong>'+detailData.dateCreated.substring(0,10)+'</li>'+
 						'<li class="li-property-detail"><strong>Type: </strong>House</li>'+
 						'<li class="li-property-detail"><strong>Price: </strong>'+detailData.price+'</li>'+
 						'<li class="li-property-detail"><strong>Reference Number: </strong>'+detailData.refNumber+'</li>'+
@@ -854,6 +889,7 @@ function onDeviceReady () {
 					});
 					loadSlider();
 					$("#ul_property_detail").append('<li data-role="list-divider">Property Information</li>'+
+						'<li class="li-property-detail"><strong>Posted on: </strong>'+detailData.dateCreated.substring(0,10)+'</li>'+
 						'<li class="li-property-detail"><strong>Type: </strong>Apartment</li>'+
 						'<li class="li-property-detail"><strong>Price: </strong>'+detailData.price+'</li>'+
 						'<li class="li-property-detail"><strong>Reference Number: </strong>'+detailData.refNumber+'</li>'+
@@ -894,6 +930,7 @@ function onDeviceReady () {
 					});
 					loadSlider();
 					$("#ul_property_detail").append('<li data-role="list-divider">Property Information</li>'+
+						'<li class="li-property-detail"><strong>Posted on: </strong>'+detailData.dateCreated.substring(0,10)+'</li>'+
 						'<li class="li-property-detail"><strong>Type: </strong>Apartment</li>'+
 						'<li class="li-property-detail"><strong>Price: </strong>'+detailData.price+'</li>'+
 						'<li class="li-property-detail"><strong>Reference Number: </strong>'+detailData.refNumber+'</li>'+
@@ -933,6 +970,7 @@ function onDeviceReady () {
 					});
 					loadSlider();
 					$("#ul_property_detail").append('<li data-role="list-divider">Property Information</li>'+
+						'<li class="li-property-detail"><strong>Posted on: </strong>'+detailData.dateCreated.substring(0,10)+'</li>'+
 						'<li id="detail-propertyType"><strong>Type: </strong>Apartment</li>'+
 						'<li class="li-property-detail"><strong>Price: </strong>'+detailData.price+'</li>'+
 						'<li class="li-property-detail"><strong>Reference Number: </strong>'+detailData.refNumber+'</li>'+
@@ -973,6 +1011,7 @@ function onDeviceReady () {
 					});
 					loadSlider();
 					$("#ul_property_detail").append('<li data-role="list-divider">Property Information</li>'+
+						'<li class="li-property-detail"><strong>Posted on: </strong>'+detailData.dateCreated.substring(0,10)+'</li>'+
 						'<li class="li-property-detail"><strong>Type: </strong>Service Apartment</li>'+
 						'<li class="li-property-detail"><strong>Price: </strong>'+detailData.price+'</li>'+
 						'<li class="li-property-detail"><strong>Reference Number: </strong>'+detailData.refNumber+'</li>'+
@@ -1119,7 +1158,7 @@ function onDeviceReady () {
 	});
 	
 	//feedbacks
-	$("#feedback_post_frm").on("submit", function(e){
+	$("body").on("submit", "#feedback_post_frm", function(e){
 		e.preventDefault();
 		var url = site_url+"/pservice/index.php?method=feedback-add";
 		var postData = $(this).serialize()+"&name="+localStorage.getItem('name')+"&email="+localStorage.getItem('email');
